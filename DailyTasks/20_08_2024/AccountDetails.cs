@@ -18,6 +18,10 @@ public class Program
 		{
 			Console.WriteLine($"New Balance: {acc.AccBalance - withDraw}");
 		}
+		else
+		{
+			Console.WriteLine("Insufficient balance");
+		}
 		
 										 
 		
