@@ -4,7 +4,7 @@ public class Program
 {
 	public static void Main()
 	{
-		Console.Write("Wnter the letter found in the paper: ");
+		Console.Write("Enter the letter found in the paper: ");
 		char letter = Convert.ToChar(Console.ReadLine());
 		switch(letter)
 		{
