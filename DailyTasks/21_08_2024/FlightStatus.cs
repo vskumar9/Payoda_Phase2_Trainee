@@ -21,8 +21,17 @@ public class Program
             TimeSpan timeLeft = departureTime - DateTime.Now;
             if (timeLeft.TotalSeconds > 0)
             {
-                return $"Time To Flight {timeLeft.ToString(@"hh\:mm\:ss\.ffffff")}";
-            }
+				int days = timeLeft.Days;
+            	TimeSpan time = timeLeft - TimeSpan.FromDays(days);
+                //return $"Time To Flight {days} days {time.ToString(@"hh\:mm\:ss\.ffffff")}";
+				//Output
+				//Enter the Flight Number: Rs459
+				//Time To Flight 6 days 19:58:48.952218
+				return $"Time To Flight {timeLeft}";
+				//Output
+				//Enter the Flight Number: Rs459
+				//Time To Flight 6.19:55:58.7112418
+			}
             else
             {
                 return "Flight Already Left";
