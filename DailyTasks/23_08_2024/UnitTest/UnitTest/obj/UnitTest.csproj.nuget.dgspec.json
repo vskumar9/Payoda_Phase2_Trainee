@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sanjeevkumar.v\\source\\repos\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj": {}
+    "C:\\Users\\sanjeevkumar.v\\Desktop\\Training\\Payoda_Phase2_Trainee\\DailyTasks\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sanjeevkumar.v\\source\\repos\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj": {
+    "C:\\Users\\sanjeevkumar.v\\Desktop\\Training\\Payoda_Phase2_Trainee\\DailyTasks\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sanjeevkumar.v\\source\\repos\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj",
+        "projectUniqueName": "C:\\Users\\sanjeevkumar.v\\Desktop\\Training\\Payoda_Phase2_Trainee\\DailyTasks\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj",
         "projectName": "UnitTest",
-        "projectPath": "C:\\Users\\sanjeevkumar.v\\source\\repos\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj",
+        "projectPath": "C:\\Users\\sanjeevkumar.v\\Desktop\\Training\\Payoda_Phase2_Trainee\\DailyTasks\\23_08_2024\\UnitTest\\UnitTest\\UnitTest.csproj",
         "packagesPath": "C:\\Users\\sanjeevkumar.v\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sanjeevkumar.v\\source\\repos\\23_08_2024\\UnitTest\\UnitTest\\obj\\",
+        "outputPath": "C:\\Users\\sanjeevkumar.v\\Desktop\\Training\\Payoda_Phase2_Trainee\\DailyTasks\\23_08_2024\\UnitTest\\UnitTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
