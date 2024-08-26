@@ -6,8 +6,6 @@ internal class Program
 
     private static void Main(string[] args)
     {
-
-        Console.WriteLine("Hello, World!");
         Create();
         Insert();
         Fetch();
