@@ -101,6 +101,9 @@ internal class Program
                             Console.WriteLine("Not available products.");
                         }
                         break;
+                    case 6:
+                        Console.WriteLine("--Thank you--\nClosing Application");
+                        break;
                     default: 
                         Console.WriteLine("Wrong option selected.");
                         break;
