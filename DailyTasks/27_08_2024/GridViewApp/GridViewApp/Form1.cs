@@ -119,5 +119,17 @@ namespace GridViewApp
             Form1_Load(sender, e);
         }
 
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            using (conn = GetConnection())
+            {
+                cmd = new SqlCommand("select count(*) from product", conn);
+                conn.Open();
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                MessageBox.Show($"Total Product: {count}");
+            }
+        }
     }
 }

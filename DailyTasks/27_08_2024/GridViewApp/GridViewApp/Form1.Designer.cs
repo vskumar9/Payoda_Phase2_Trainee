@@ -40,6 +40,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.Button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(428, 350);
+            this.dataGridView1.Size = new System.Drawing.Size(534, 350);
             this.dataGridView1.TabIndex = 0;
             // 
             // button1
@@ -143,7 +144,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(409, 418);
+            this.button5.Location = new System.Drawing.Point(397, 378);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 31);
             this.button5.TabIndex = 11;
@@ -151,11 +152,22 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // Button6
+            // 
+            this.Button6.Location = new System.Drawing.Point(363, 453);
+            this.Button6.Name = "Button6";
+            this.Button6.Size = new System.Drawing.Size(140, 31);
+            this.Button6.TabIndex = 12;
+            this.Button6.Text = "TotalProducts";
+            this.Button6.UseVisualStyleBackColor = true;
+            this.Button6.Click += new System.EventHandler(this.Button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(988, 540);
+            this.ClientSize = new System.Drawing.Size(1094, 540);
+            this.Controls.Add(this.Button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button Button6;
     }
 }
 
