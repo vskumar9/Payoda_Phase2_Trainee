@@ -1,0 +1,24 @@
+
+CREATE TABLE Customers (
+    CustomerID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(15)
+);
+
+CREATE TABLE Rooms (
+    RoomID INT IDENTITY(1,1) PRIMARY KEY,
+    RoomNumber VARCHAR(10),
+    RoomType VARCHAR(50),
+    Price DECIMAL(10, 2),
+    IsAvailable BIT
+);
+
+CREATE TABLE Reservations (
+    ReservationID INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerID INT FOREIGN KEY REFERENCES Customers(CustomerID),
+    RoomID INT FOREIGN KEY REFERENCES Rooms(RoomID),
+    CheckInDate DATETIME,
+    CheckOutDate DATETIME
+);

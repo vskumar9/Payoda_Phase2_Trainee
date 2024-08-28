@@ -1,0 +1,23 @@
+CREATE TRIGGER trg_UpdateRoomAvailability
+ON Reservations
+AFTER INSERT
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to false when a new reservation is added
+    UPDATE Rooms
+    SET IsAvailable = 0
+    FROM Rooms
+    INNER JOIN inserted ON Rooms.RoomID = inserted.RoomID;
+END;
+
+CREATE TRIGGER trg_UpdateRoomAvailabilityOnDelete
+ON Reservations
+AFTER DELETE
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to true when a reservation is deleted
+    UPDATE Rooms
+    SET IsAvailable = 1
+    FROM Rooms
+    INNER JOIN deleted ON Rooms.RoomID = deleted.RoomID;
+END;
