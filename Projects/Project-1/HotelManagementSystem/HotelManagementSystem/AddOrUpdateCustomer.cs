@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
@@ -149,8 +150,20 @@ namespace HotelManagementSystem
                 return;
             }
 
+            try
+            {
+                ValidateEmail(email);
+                ValidatePhoneNumber(phoneNumber);
+
+                SaveCustomer(firstName, lastName, email, phoneNumber);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
             // Save the customer to the database
-            SaveCustomer(firstName, lastName, email, phoneNumber);
         }
 
         // Method to save a new customer to the database
@@ -311,9 +324,21 @@ namespace HotelManagementSystem
                 MessageBox.Show("Please fill all fields correctly.");
                 return;
             }
+            try
+            {
+                ValidateEmail(email);
+                ValidatePhoneNumber(phoneNumber);
+
+                UpdateCustomer(customerId, firstName, lastName, email, phoneNumber);
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
             // Update the customer in the database
-            UpdateCustomer(customerId, firstName, lastName, email, phoneNumber);
         }
 
         // Event handler for the Get Data button click event
@@ -395,12 +420,56 @@ namespace HotelManagementSystem
             }
         }
 
+        private void ValidateEmail(string email)
+        {
+            // This method validates the email address using a regular expression pattern.
+            // The pattern checks for a valid email format.
+
+            // Define the regex pattern for a valid email address.
+            var emailPattern = @"^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$";
+
+            // Use the Regex.IsMatch method to check if the email matches the pattern.
+            if (!Regex.IsMatch(email, emailPattern))
+            {
+                // If the email does not match the pattern, throw an InvalidException with an error message.
+                throw new InvalidException($"Invalid Mail ID: {email}");
+            }
+            
+        }
+
+        private void ValidatePhoneNumber(string phoneNumber)
+        {
+            // This method validates the phone number using a regular expression pattern.
+            // The pattern checks for a valid 10-digit phone number starting with a digit between 6 and 9.
+
+            // Define the regex pattern for a valid phone number.
+            var phonePattern = @"^[6-9][0-9]{9}$";
+
+            // Use the Regex.IsMatch method to check if the phone number matches the pattern.
+            if (!Regex.IsMatch(phoneNumber, phonePattern))
+            {
+                // If the phone number does not match the pattern, throw an InvalidException with an error message.
+                throw new InvalidException($"Invalid Phone number: {phoneNumber}");
+            }
+            
+        }
+
         // Event handler for the Back button click event
         private void btnBackToCustomerForm_Click(object sender, EventArgs e)
         {
             // Close the AddOrUpdateCustomer form and notify the parent CustomerForm
             this.Close();
             customerForm.OnFormClosed();
+        }
+    }
+
+    // Custom exception class to handle validation errors.
+    // This class inherits from the base Exception class and allows for custom error messages.
+    public class InvalidException : Exception
+    {
+        // Constructor that takes a message parameter and passes it to the base Exception class constructor.
+        public InvalidException(string message) : base(message)
+        {
         }
     }
 }
