@@ -100,6 +100,17 @@ namespace HotelManagementSystem
                 }
 
             }
+
+            DataTable customersTable = GetCustomersData();
+            dataGridView1.DataSource = customersTable;
+
+            comboBoxSortOptions.Items.Add("FirstName");
+            comboBoxSortOptions.Items.Add("LastName");
+            comboBoxSortOptions.Items.Add("Email");
+            comboBoxSortOptions.Items.Add("PhoneNumber");
+
+            comboBoxSortOptions.SelectedIndex = 0; // Default sorting by FirstName
+
         }
 
         // Event handler for the ViewCustomers button click
@@ -255,6 +266,49 @@ namespace HotelManagementSystem
                 MessageBox.Show($"Total Customers: {count}");
             }
         }
+
+        
+            
+        
+
+        private void ASC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} ASC";
+                dataGridView1.DataSource = dt;
+            }
+        }
+
+        private void DESC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} DESC";
+                dataGridView1.DataSource = dt;
+            }
+        }
+
+        private DataTable GetCustomersData()
+        {
+            DataTable dt = new DataTable();
+            string query = "SELECT * FROM Customers";
+
+            using (SqlConnection conn = GetConnection())
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                adapter.Fill(dt);
+            }
+
+            return dt;
+        }
+
         // Event handler for the BackToMainForm button click
         private void btnBackToMainForm_Click(object sender, EventArgs e)
         {
@@ -272,5 +326,6 @@ namespace HotelManagementSystem
             this.Show();
         }
 
+        
     }
 }

@@ -80,7 +80,55 @@ namespace HotelManagementSystem
             EnsureTablesExist(); // Ensure that the necessary tables exist in the database
 
             LoadRooms(); // Load and display rooms data
-            
+
+            DataTable customersTable = GetCustomersData();
+            dataGridView1.DataSource = customersTable;
+
+            comboBoxSortOptions.Items.Add("RoomID");
+            comboBoxSortOptions.Items.Add("RoomNumber");
+            comboBoxSortOptions.Items.Add("RoomType");
+            comboBoxSortOptions.Items.Add("Price");
+            comboBoxSortOptions.Items.Add("IsAvailable");
+
+            comboBoxSortOptions.SelectedIndex = 0; // Default sorting by FirstName
+
+        }
+        private DataTable GetCustomersData()
+        {
+            DataTable dt = new DataTable();
+            string query = "SELECT * FROM Rooms";
+
+            using (SqlConnection conn = GetConnection())
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                adapter.Fill(dt);
+            }
+
+            return dt;
+        }
+
+        private void ASC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} ASC";
+                dataGridView1.DataSource = dt;
+            }
+        }
+
+        private void DESC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} DESC";
+                dataGridView1.DataSource = dt;
+            }
         }
 
         // Method to load room data into the DataGridView

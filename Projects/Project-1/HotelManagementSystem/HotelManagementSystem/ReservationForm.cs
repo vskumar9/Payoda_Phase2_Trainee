@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -73,7 +74,57 @@ namespace HotelManagementSystem
         {
             EnsureTableExists(tableName, createTableSql);
             LoadReservations();
+
+            DataTable customersTable = GetCustomersData();
+            dataGridView1.DataSource = customersTable;
+
+            comboBoxSortOptions.Items.Add("ReservationID");
+            comboBoxSortOptions.Items.Add("CustomerID");
+            comboBoxSortOptions.Items.Add("RoomID");
+            comboBoxSortOptions.Items.Add("CheckInDate");
+            comboBoxSortOptions.Items.Add("CheckOutDate");
+
+            comboBoxSortOptions.SelectedIndex = 0; // Default sorting by FirstName
         }
+
+        private void ASC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} ASC";
+                dataGridView1.DataSource = dt;
+            }
+        }
+
+        private void DESC_Order_Click(object sender, EventArgs e)
+        {
+            string sortColumn = comboBoxSortOptions.SelectedItem.ToString();
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt != null)
+            {
+                dt.DefaultView.Sort = $"{sortColumn} DESC";
+                dataGridView1.DataSource = dt;
+            }
+        }
+
+        private DataTable GetCustomersData()
+        {
+            DataTable dt = new DataTable();
+            string query = "SELECT * FROM Reservations";
+
+            using (SqlConnection conn = GetConnection())
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                adapter.Fill(dt);
+            }
+
+            return dt;
+        }
+
 
         private void LoadReservations()
         {

@@ -39,6 +39,11 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnBackToMainForm = new System.Windows.Forms.Button();
             this.TotalRooms = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.DESC_Order = new System.Windows.Forms.Button();
+            this.ASC_Order = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBoxSortOptions = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,6 +148,56 @@
             this.TotalRooms.UseVisualStyleBackColor = false;
             this.TotalRooms.Click += new System.EventHandler(this.TotalRooms_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(683, 567);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 25);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "OR";
+            // 
+            // DESC_Order
+            // 
+            this.DESC_Order.Location = new System.Drawing.Point(729, 566);
+            this.DESC_Order.Name = "DESC_Order";
+            this.DESC_Order.Size = new System.Drawing.Size(85, 28);
+            this.DESC_Order.TabIndex = 23;
+            this.DESC_Order.Text = "DESC";
+            this.DESC_Order.UseVisualStyleBackColor = true;
+            this.DESC_Order.Click += new System.EventHandler(this.DESC_Order_Click);
+            // 
+            // ASC_Order
+            // 
+            this.ASC_Order.Location = new System.Drawing.Point(592, 567);
+            this.ASC_Order.Name = "ASC_Order";
+            this.ASC_Order.Size = new System.Drawing.Size(85, 28);
+            this.ASC_Order.TabIndex = 22;
+            this.ASC_Order.Text = "ASC";
+            this.ASC_Order.UseVisualStyleBackColor = true;
+            this.ASC_Order.Click += new System.EventHandler(this.ASC_Order_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(309, 570);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(82, 25);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "Sort By:";
+            // 
+            // comboBoxSortOptions
+            // 
+            this.comboBoxSortOptions.FormattingEnabled = true;
+            this.comboBoxSortOptions.Location = new System.Drawing.Point(427, 567);
+            this.comboBoxSortOptions.Name = "comboBoxSortOptions";
+            this.comboBoxSortOptions.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxSortOptions.TabIndex = 20;
+            // 
             // RoomForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -150,7 +205,12 @@
             this.BackColor = System.Drawing.Color.MistyRose;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1151, 542);
+            this.ClientSize = new System.Drawing.Size(1151, 670);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.DESC_Order);
+            this.Controls.Add(this.ASC_Order);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.comboBoxSortOptions);
             this.Controls.Add(this.TotalRooms);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
@@ -183,5 +243,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnBackToMainForm;
         private System.Windows.Forms.Button TotalRooms;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button DESC_Order;
+        private System.Windows.Forms.Button ASC_Order;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBoxSortOptions;
     }
 }
