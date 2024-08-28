@@ -193,6 +193,8 @@ namespace HotelManagementSystem
                     int count = cmd.ExecuteNonQuery();
                     if (count > 0)
                         MessageBox.Show($"Deleted {text}.");
+                    else
+                        MessageBox.Show($"CustomerID: {text} not found."); // Show error message if room is not found
                 }
                 catch (Exception ex)
                 {
@@ -237,6 +239,22 @@ namespace HotelManagementSystem
             }
         }
 
+        private void TotalCustomers_Click(object sender, EventArgs e)
+        {
+            // Use a using block to ensure the SqlConnection is properly disposed of after use.
+            using (var conn = GetConnection())
+            {
+                // Create a SqlCommand to execute a SQL query that counts the total number of rows in the 'Customers' table.
+                cmd = new SqlCommand("select count(*) from Customers", conn);
+
+                // Open the connection to the database.
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar(); // ExecuteScalar should be used to get a single value from the database.
+
+                // Show a message box displaying the total number of customers.
+                MessageBox.Show($"Total Customers: {count}");
+            }
+        }
         // Event handler for the BackToMainForm button click
         private void btnBackToMainForm_Click(object sender, EventArgs e)
         {
@@ -253,5 +271,6 @@ namespace HotelManagementSystem
             // Show the MainForm when this form is closed
             this.Show();
         }
+
     }
 }

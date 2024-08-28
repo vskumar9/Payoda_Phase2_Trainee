@@ -1,6 +1,6 @@
 ﻿namespace HotelManagementSystem
 {
-    partial class AddOrUpdateCustomer
+    partial class AddOrUpdateReservation
     {
         /// <summary>
         /// Required designer variable.
@@ -28,39 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddOrUpdateCustomer));
-            this.btnBackToCustomerForm = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddOrUpdateReservation));
+            this.btnBackToReservationForm = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnBackToCustomerForm
+            // btnBackToReservationForm
             // 
-            this.btnBackToCustomerForm.ForeColor = System.Drawing.Color.Red;
-            this.btnBackToCustomerForm.Location = new System.Drawing.Point(851, 24);
-            this.btnBackToCustomerForm.Name = "btnBackToCustomerForm";
-            this.btnBackToCustomerForm.Size = new System.Drawing.Size(208, 38);
-            this.btnBackToCustomerForm.TabIndex = 1;
-            this.btnBackToCustomerForm.Text = "Back to Customer Form";
-            this.btnBackToCustomerForm.UseVisualStyleBackColor = true;
-            this.btnBackToCustomerForm.Click += new System.EventHandler(this.btnBackToCustomerForm_Click);
+            this.btnBackToReservationForm.ForeColor = System.Drawing.Color.Red;
+            this.btnBackToReservationForm.Location = new System.Drawing.Point(911, 29);
+            this.btnBackToReservationForm.Name = "btnBackToReservationForm";
+            this.btnBackToReservationForm.Size = new System.Drawing.Size(222, 46);
+            this.btnBackToReservationForm.TabIndex = 3;
+            this.btnBackToReservationForm.Text = "Back to Reservation Form";
+            this.btnBackToReservationForm.UseVisualStyleBackColor = true;
+            this.btnBackToReservationForm.Click += new System.EventHandler(this.btnBackToReservationForm_Click);
             // 
-            // AddOrUpdateCustomer
+            // AddOrUpdateReservation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1071, 450);
-            this.Controls.Add(this.btnBackToCustomerForm);
+            this.ClientSize = new System.Drawing.Size(1145, 505);
+            this.Controls.Add(this.btnBackToReservationForm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "AddOrUpdateCustomer";
-            this.Text = "AddOrUpdateCustomer";
-            this.Load += new System.EventHandler(this.AddOrUpdateCustomer_Load);
+            this.Name = "AddOrUpdateReservation";
+            this.Text = "AddOrUpdateReservation";
+            this.Load += new System.EventHandler(this.AddOrUpdateReservation_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnBackToCustomerForm;
+        private System.Windows.Forms.Button btnBackToReservationForm;
     }
 }

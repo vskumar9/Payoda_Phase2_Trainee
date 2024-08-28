@@ -28,20 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddOrUpdateRoom));
+            this.btnBackToRoomForm = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnBackToRoomForm
+            // 
+            this.btnBackToRoomForm.ForeColor = System.Drawing.Color.Red;
+            this.btnBackToRoomForm.Location = new System.Drawing.Point(912, 27);
+            this.btnBackToRoomForm.Name = "btnBackToRoomForm";
+            this.btnBackToRoomForm.Size = new System.Drawing.Size(208, 38);
+            this.btnBackToRoomForm.TabIndex = 2;
+            this.btnBackToRoomForm.Text = "Back to Room Form";
+            this.btnBackToRoomForm.UseVisualStyleBackColor = true;
+            this.btnBackToRoomForm.Click += new System.EventHandler(this.btnBackToRoomForm_Click);
             // 
             // AddOrUpdateRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1132, 450);
+            this.Controls.Add(this.btnBackToRoomForm);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddOrUpdateRoom";
             this.Text = "AddOrUpdateRoom";
-            this.Load += new System.EventHandler(this.AddOrUpdateRoom_Load);
+            this.Load += new System.EventHandler(this.AddOrUpdateRooms_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button btnBackToRoomForm;
     }
 }

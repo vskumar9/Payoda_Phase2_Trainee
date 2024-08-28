@@ -52,6 +52,18 @@
     <Compile Include="AddOrUpdateCustomer.Designer.cs">
       <DependentUpon>AddOrUpdateCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddOrUpdateReservation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOrUpdateReservation.Designer.cs">
+      <DependentUpon>AddOrUpdateReservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddOrUpdateRoom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOrUpdateRoom.Designer.cs">
+      <DependentUpon>AddOrUpdateRoom.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +97,12 @@
     </Compile>
     <EmbeddedResource Include="AddOrUpdateCustomer.resx">
       <DependentUpon>AddOrUpdateCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddOrUpdateReservation.resx">
+      <DependentUpon>AddOrUpdateReservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddOrUpdateRoom.resx">
+      <DependentUpon>AddOrUpdateRoom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>

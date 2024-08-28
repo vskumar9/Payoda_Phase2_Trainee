@@ -38,6 +38,7 @@
             this.ViewCustomers = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.TotalCustomers = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,7 +56,9 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.dataGridView1.Location = new System.Drawing.Point(103, 108);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
@@ -85,12 +88,13 @@
             // 
             // UpdateCustomer
             // 
+            this.UpdateCustomer.BackColor = System.Drawing.Color.Transparent;
             this.UpdateCustomer.Location = new System.Drawing.Point(247, 470);
             this.UpdateCustomer.Name = "UpdateCustomer";
             this.UpdateCustomer.Size = new System.Drawing.Size(108, 68);
             this.UpdateCustomer.TabIndex = 4;
             this.UpdateCustomer.Text = "Update Customer";
-            this.UpdateCustomer.UseVisualStyleBackColor = true;
+            this.UpdateCustomer.UseVisualStyleBackColor = false;
             this.UpdateCustomer.Click += new System.EventHandler(this.UpdateCustomer_Click);
             // 
             // SearchCustomer
@@ -105,11 +109,13 @@
             // 
             // ViewCustomers
             // 
+            this.ViewCustomers.BackColor = System.Drawing.Color.Transparent;
             this.ViewCustomers.Location = new System.Drawing.Point(870, 481);
             this.ViewCustomers.Name = "ViewCustomers";
             this.ViewCustomers.Size = new System.Drawing.Size(232, 46);
             this.ViewCustomers.TabIndex = 8;
             this.ViewCustomers.Text = "View All Customers";
+            this.ViewCustomers.UseVisualStyleBackColor = false;
             this.ViewCustomers.Click += new System.EventHandler(this.ViewCustomers_Click);
             // 
             // textBox1
@@ -122,17 +128,32 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(943, 72);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 20);
             this.label1.TabIndex = 9;
             this.label1.Text = "OR";
             // 
+            // TotalCustomers
+            // 
+            this.TotalCustomers.Location = new System.Drawing.Point(688, 481);
+            this.TotalCustomers.Name = "TotalCustomers";
+            this.TotalCustomers.Size = new System.Drawing.Size(161, 46);
+            this.TotalCustomers.TabIndex = 10;
+            this.TotalCustomers.Text = "Total Customers";
+            this.TotalCustomers.UseVisualStyleBackColor = true;
+            this.TotalCustomers.Click += new System.EventHandler(this.TotalCustomers_Click);
+            // 
             // CustomerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.MistyRose;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1169, 573);
+            this.Controls.Add(this.TotalCustomers);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.ViewCustomers);
@@ -163,5 +184,6 @@
         private System.Windows.Forms.Button ViewCustomers;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button TotalCustomers;
     }
 }
