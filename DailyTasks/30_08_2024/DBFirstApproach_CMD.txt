@@ -1,0 +1,1 @@
+Scaffold-DbContext "data source=PTSQLTESTDB01;database=MVC_KUMAR;integrated security=true;trustservercertificate = true" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
