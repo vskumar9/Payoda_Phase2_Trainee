@@ -1,0 +1,432 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.carousel-item img {
+    height: 600px;
+    object-fit: cover;
+}
+
+.carousel-caption h5 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.carousel-caption p {
+    font-size: 1.25rem;
+}
+
+.feature-box {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+    .feature-box h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+footer {
+    background-color: #343a40; 
+    color: #ffffff; 
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto;
+    sticky
+}
+
+/* Heading Styles */
+.page-title {
+    color: #007bff;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 10px 0;
+}
+
+/* Table Styles */
+.table-styled {
+    width: 100%;
+    margin: 10px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.thead-styled {
+    background-color: #007bff;
+    color: #fff;
+}
+
+    .thead-styled th {
+        padding: 10px;
+        text-align: left;
+    }
+
+.table-styled tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+    .table-styled tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+.table-styled tbody td {
+    padding: 6px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+    background-color: #007bff;
+}
+
+    .btn-edit:hover {
+        background-color: #0056b3;
+    }
+
+.btn-details {
+    background-color: #17a2b8;
+}
+
+    .btn-details:hover {
+        background-color: #138496;
+    }
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table-styled {
+        font-size: 14px;
+    }
+
+        .table-styled thead th, .table-styled tbody td {
+            padding: 10px;
+        }
+
+    .page-title {
+        font-size: 2rem;
+    }
+}
+
+/* Heading Styles */
+h1 {
+    color: #007bff;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .table thead {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+        .table thead th {
+            padding: 15px;
+            text-align: left;
+        }
+
+    .table tbody tr {
+        transition: background-color 0.3s ease;
+    }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .table tbody td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .table a:hover {
+            text-decoration: underline;
+        }
+
+/* Button Styles */
+a.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+    a.btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Create Button Styling */
+a.btn-create {
+    background-color: #28a745;
+}
+
+    a.btn-create:hover {
+        background-color: #218838;
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+
+        .table thead th, .table tbody td {
+            padding: 10px;
+        }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+
+/* Form Heading */
+.form-heading {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+    }
+
+.text-danger {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+/* Back to List Link */
+.btn-link {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+
+
+
+
+.card {
+    --main-color: #000;
+    --submain-color: #78858F;
+    --bg-color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    position: relative;
+    width: 300px;
+/*    height: 384px;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    background: var(--bg-color);
+}
+
+.card__img {
+    height: 192px;
+    width: 100%;
+}
+
+    .card__img svg {
+        height: 100%;
+        border-radius: 20px 20px 0 0;
+    }
+
+.card__avatar {
+    position: absolute;
+    width: 114px;
+    height: 114px;
+    background: var(--bg-color);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: calc(50% - 157px);
+}
+
+    .card__avatar svg {
+        width: 100px;
+        height: 100px;
+    }
+
+.card__title {
+    margin-top: 60px;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--main-color);
+}
+
+.card__subtitle {
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--submain-color);
+}
+
+/* General Styles for Card Wrapper */
+.card__wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Common Styles for Buttons */
+.card__btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    /* Dark Background Button */
+    .card__btn.bg-dark {
+        background-color: #343a40; /* Dark color */
+        border: none;
+    }
+
+        .card__btn.bg-dark:hover {
+            background-color: #23272b; /* Darker shade on hover */
+        }
+
+/* Solid Background Button */
+.card__btn-solid {
+    background-color: #007bff; /* Blue color */
+    border: none;
+}
+
+    .card__btn-solid:hover {
+        background-color: white; /* Darker blue shade on hover */
+    }
+
+/* Optional Styles for Button Text */
+.card__btn, .card__btn-solid {
+    border: 1px solid transparent; /* Removes default border */
+    cursor: pointer;
+    outline: none;
+}
+
+    /* Additional Styling */
+    .card__btn:active, .card__btn-solid:active {
+        background-color: #0056b3; /* Ensure active state color */
+        color: #ffffff;
+    }
+}

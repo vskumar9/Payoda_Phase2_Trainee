@@ -1,0 +1,114 @@
+﻿@model HotelReservationSystem.Models.Reservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="container mt-5">
+
+    <h1 class="page-title">Create</h1>
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId">
+                        <option value="">Select a customer</option>
+                    </select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    @if (ViewBag.CustomerId == null || !((SelectList)ViewBag.CustomerId).Any())
+                    {
+                        <p class="text-danger">Customer dropdown list is not populated correctly.</p>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="RoomId" class="control-label"></label>
+                    <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId">
+                        <option value="">Select a room</option>
+                    </select>
+                    <span asp-validation-for="RoomId" class="text-danger"></span>
+                    @if (ViewBag.RoomId == null || !((SelectList)ViewBag.RoomId).Any())
+                    {
+                        <p class="text-danger">Room dropdown list is not populated correctly.</p>
+                    }
+                </div>
+
+            <div class="form-group">
+                <label asp-for="CheckInDate" class="control-label"></label>
+                <input asp-for="CheckInDate" class="form-control" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckOutDate" class="control-label"></label>
+                <input asp-for="CheckOutDate" class="form-control" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkInDateInput = document.getElementById('checkInDate');
+            const checkOutDateInput = document.getElementById('checkOutDate');
+            const checkInDateLabel = checkInDateInput.nextElementSibling;
+            const checkOutDateLabel = checkOutDateInput.nextElementSibling;
+
+            function validateDates() {
+                const checkInDate = new Date(checkInDateInput.value);
+                const checkOutDate = new Date(checkOutDateInput.value);
+                const today = new Date();
+
+                // Clear previous error messages
+                checkInDateLabel.textContent = '';
+                checkOutDateLabel.textContent = '';
+
+                let valid = true;
+
+                if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+                    return;
+                }
+
+                // Check if Check-In date is before today
+                if (checkInDate < today) {
+                    checkInDateLabel.textContent = 'Check-In date cannot be in the past.';
+                    valid = false;
+                }
+
+                // Check if Check-Out date is before Check-In date
+                if (checkOutDate <= checkInDate) {
+                    checkOutDateLabel.textContent = 'Check-Out date must be after Check-In date.';
+                    valid = false;
+                }
+
+                return valid;
+            }
+
+            checkInDateInput.addEventListener('change', validateDates);
+            checkOutDateInput.addEventListener('change', validateDates);
+
+            document.querySelector('form').addEventListener('submit', function (event) {
+                if (!validateDates()) {
+                    event.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+        });
+    </script>
+
+}

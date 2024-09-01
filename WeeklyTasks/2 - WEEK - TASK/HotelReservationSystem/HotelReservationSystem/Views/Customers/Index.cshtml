@@ -1,0 +1,197 @@
+﻿@model IEnumerable<HotelReservationSystem.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customer List";
+}
+
+<div class="container mt-5">
+    <h1 class="page-title">Customer List</h1>
+
+    <p>
+        <a class="btn btn-create" asp-action="Create">Create New</a>
+    </p>
+
+    <!-- Customer Search Form -->
+    <form id="customerSearchForm" method="get">
+        <div class="form-group">
+            <label for="customerSearchTerm">Search Customers</label>
+            <input type="text" id="customerSearchTerm" class="form-control" placeholder="Search by Customer ID or Name..." />
+        </div>
+    </form>
+
+    <table class="table" id="customersTable">
+        <thead class="thead-styled">
+            <tr>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="customerId" data-order="asc">@Html.DisplayNameFor(model => model.CustomerId)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="name" data-order="asc">@Html.DisplayNameFor(model => model.Name)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="phoneNumber" data-order="asc">@Html.DisplayNameFor(model => model.phoneNumber)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="email" data-order="asc">@Html.DisplayNameFor(model => model.email)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="dateOfBirth" data-order="asc">@Html.DisplayNameFor(model => model.DateOfBirth)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="city" data-order="asc">@Html.DisplayNameFor(model => model.City)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="zipCode" data-order="asc">@Html.DisplayNameFor(model => model.ZipCode)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="state" data-order="asc">@Html.DisplayNameFor(model => model.State)</a>
+                </th>
+                <th>
+                    <a href="#" class="sort list-unstyled text-white" data-column="country" data-order="asc">@Html.DisplayNameFor(model => model.Country)</a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.phoneNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+                    <td>@Html.DisplayFor(modelItem => item.City)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ZipCode)</td>
+                    <td>@Html.DisplayFor(modelItem => item.State)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('customerSearchTerm');
+            const table = document.getElementById('customersTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const customerIdCell = cells[0];  // Assuming CustomerId is in the first column (index 0)
+                    const nameCell = cells[1];        // Assuming Name is in the second column (index 1)
+                    const phoneNumberCell = cells[2];
+                    const emailCell = cells[3];
+                    const cityCell = cells[5];
+                    const zipcodeCell = cells[6];
+                    const stateCell = cells[7];
+                    const countryCell = cells[8];
+
+                    const customerId = customerIdCell.textContent.toLowerCase();
+                    const name = nameCell.textContent.toLowerCase();
+                    const phone = phoneNumberCell.textContent.toLowerCase();
+                    const email = emailCell.textContent.toLowerCase();
+                    const city = cityCell.textContent.toLowerCase();
+                    const zipcode = zipcodeCell.textContent.toLowerCase();
+                    const state = stateCell.textContent.toLowerCase();
+                    const country = countryCell.textContent.toLowerCase();
+
+
+                    if (customerId.includes(searchTerm) || name.includes(searchTerm) || phone.includes(searchTerm) || email.includes(searchTerm) || city.includes(searchTerm) || zipcode.includes(searchTerm)
+                        || state.includes(searchTerm) || country.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            const headers = table.querySelectorAll('thead th a.sort');
+
+            headers.forEach(header => {
+                header.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const column = header.getAttribute('data-column');
+                    const order = header.getAttribute('data-order');
+
+                    // Toggle sort order
+                    const newOrder = (order === 'asc') ? 'desc' : 'asc';
+                    header.setAttribute('data-order', newOrder);
+
+                    // Sort the table
+                    sortTable(column, newOrder);
+                });
+            });
+
+            function sortTable(column, order) {
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+                rows.sort((a, b) => {
+                    const cellA = a.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+                    const cellB = b.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+                    // Handle different data types
+                    if (column === 'dateOfBirth') {
+                        return order === 'asc'
+                            ? new Date(cellA) - new Date(cellB)
+                            : new Date(cellB) - new Date(cellA);
+                    }
+
+                    if (column === 'phoneNumber' || column === 'zipCode') {
+                        return order === 'asc'
+                            ? cellA.localeCompare(cellB, undefined, { numeric: true })
+                            : cellB.localeCompare(cellA, undefined, { numeric: true });
+                    }
+
+                    if (order === 'asc') {
+                        return cellA.localeCompare(cellB, undefined, { numeric: true });
+                    } else {
+                        return cellB.localeCompare(cellA, undefined, { numeric: true });
+                    }
+                });
+
+                // Reattach rows to the table body
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            function getColumnIndex(column) {
+                switch (column) {
+                    case 'customerId':
+                        return 1; // CustomerId is in the first column
+                    case 'name':
+                        return 2; // Name is in the second column
+                    case 'phoneNumber':
+                        return 3; // Phone Number is in the third column
+                    case 'email':
+                        return 4; // Email is in the fourth column
+                    case 'dateOfBirth':
+                        return 5; // Date of Birth is in the fifth column
+                    case 'city':
+                        return 6; // City is in the sixth column
+                    case 'zipCode':
+                        return 7; // Zip Code is in the seventh column
+                    case 'state':
+                        return 8; // State is in the eighth column
+                    case 'country':
+                        return 9; // Country is in the ninth column
+                    default:
+                        return 1; // Default to the first column
+                }
+            }
+
+        });
+    </script>
+}

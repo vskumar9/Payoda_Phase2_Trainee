@@ -1,0 +1,154 @@
+﻿@model IEnumerable<HotelReservationSystem.Models.Room>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-5">
+<h1 class="page-title">Index</h1>
+
+<p>
+    <a class="btn btn-create" asp-action="Create">Create New</a>
+</p>
+
+<!-- Room Search Form -->
+<form id="roomSearchForm" method="get">
+    <div class="form-group">
+        <label for="roomSearchTerm">Search Rooms</label>
+        <input type="text" id="roomSearchTerm" class="form-control" placeholder="Search by Room Number or Room Type..." />
+    </div>
+</form>
+
+<table class="table" id="roomsTable">
+    <thead>
+        <tr>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="roomNumber" data-order="asc">@Html.DisplayNameFor(model => model.RoomNumber)</a>
+            </th>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="roomType" data-order="asc">@Html.DisplayNameFor(model => model.RoomType)</a>
+            </th>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="price" data-order="asc">@Html.DisplayNameFor(model => model.Price)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAvailable)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RoomId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RoomId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RoomId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('roomSearchTerm');
+            const table = document.getElementById('roomsTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            searchInput.addEventListener('input', function () {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const roomNumberCell = cells[0];  // RoomNumber is in the first column (index 0)
+                    const roomTypeCell = cells[1];    // RoomType is in the second column (index 1)
+
+                    const roomNumber = roomNumberCell.textContent.trim().toLowerCase();
+                    const roomType = roomTypeCell.textContent.trim().toLowerCase();
+
+                    // Perform the comparison
+                    if (roomNumber.includes(searchTerm) || roomType.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            const headers = table.querySelectorAll('thead th a.sort');
+            let currentSortColumn = '';
+            let currentSortOrder = 'asc';
+
+            headers.forEach(header => {
+                header.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const column = header.getAttribute('data-column');
+                    const order = header.getAttribute('data-order');
+
+                    // Toggle sort order
+                    currentSortOrder = (order === 'asc') ? 'desc' : 'asc';
+                    header.setAttribute('data-order', currentSortOrder);
+
+                    // Sort the table
+                    sortTable(column, currentSortOrder);
+                });
+            });
+
+            function sortTable(column, order) {
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+                rows.sort((a, b) => {
+                    const cellA = a.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+                    const cellB = b.querySelector(`td:nth-child(${getColumnIndex(column)})`).textContent.trim();
+
+                    // Convert to numbers for price comparison
+                    if (column === 'price') {
+                        return order === 'asc'
+                            ? parseFloat(cellA.replace(/[^\d.-]/g, '')) - parseFloat(cellB.replace(/[^\d.-]/g, ''))
+                            : parseFloat(cellB.replace(/[^\d.-]/g, '')) - parseFloat(cellA.replace(/[^\d.-]/g, ''));
+                    }
+
+                    // String comparison for other columns
+                    if (order === 'asc') {
+                        return cellA.localeCompare(cellB);
+                    } else {
+                        return cellB.localeCompare(cellA);
+                    }
+                });
+
+                // Reattach rows to the table body
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            function getColumnIndex(column) {
+                switch (column) {
+                    case 'roomNumber':
+                        return 1; // 1 for the Room Number column
+                    case 'roomType':
+                        return 2; // 2 for the Room Type column
+                    case 'price':
+                        return 3; // 3 for the Price column
+                    default:
+                        return 1; // Default to the first column
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,138 @@
+﻿@model HotelReservationSystem.Models.Customer
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container mt-5">
+    <h1 class="page-title">Create Customer</h1>
+
+<div class="container mt-4">
+    <div class="text-secondary rounded p-4 shadow-sm">
+        <h2 class="font-bold">Customer Details Form</h2>
+
+        <form asp-action="Create" class="mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label text-dark">Name</label>
+                <input asp-for="Name" class="form-control text-dark border-secondary" placeholder="Enter your name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="phoneNumber" class="form-label text-black">Phone Number</label>
+                <input asp-for="phoneNumber" class="form-control bg-white text-dark border-secondary" placeholder="Enter your phone number" />
+                <span asp-validation-for="phoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="email" class="form-label text-dark">Email</label>
+                <input asp-for="email" class="form-control bg-white border-secondary" placeholder="Enter your email" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DateOfBirth" class="form-label text-dark">Date of Birth</label>
+                <input asp-for="DateOfBirth" class="form-control bg-white text-dark border-secondary" type="date" min="1900-01-01" placeholder="Enter your date of birth" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="City" class="form-label text-dark">City</label>
+                <input asp-for="City" class="form-control border-secondary" list="cities" placeholder="Enter your city" />
+                <datalist id="cities">
+                    <!-- Options will be populated by JavaScript -->
+                </datalist>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ZipCode" class="form-label text-dark">ZIP Code</label>
+                <input asp-for="ZipCode" class="form-control border-secondary" list="" placeholder="Enter your ZIP code" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="State" class="form-label text-dark">State</label>
+                <input asp-for="State" class="form-control border-secondary" list="states" placeholder="Enter your state" />
+                <datalist id="states">
+                    <!-- Options will be populated by JavaScript -->
+                </datalist>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Country" class="form-label text-dark">Country</label>
+                <input asp-for="Country" class="form-control border-secondary" list="countries" placeholder="Enter your country" />
+                <datalist id="countries">
+                    <!-- Options will be populated by JavaScript -->
+                </datalist>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-light text-dark rounded px-4 py-2 hover:bg-primary hover:text-white transition-all duration-200">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-link">Back to List</a>
+</div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cities = [
+                // (List of cities, truncated for brevity)
+                'Hyderabad', 'Visakhapatnam', 'Vijayawada', 'Tirupati',
+                'Itanagar', 'Tawang', 'Guwahati', 'Dispur', 'Silchar',
+                'Patna', 'Gaya', 'Bhagalpur', 'Raipur', 'Bilaspur', 'Korba',
+                'Panaji', 'Margao', 'Ahmedabad', 'Surat', 'Vadodara', 'Rajkot',
+                'Chandigarh', 'Gurgaon', 'Faridabad', 'Shimla', 'Manali', 'Dharamshala',
+                'Ranchi', 'Jamshedpur', 'Dhanbad', 'Bangalore', 'Mysore', 'Hubli-Dharwad',
+                'Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Bhopal', 'Indore', 'Gwalior',
+                'Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Imphal', 'Shillong', 'Aizawl',
+                'Kohima', 'Dimapur', 'Bhubaneswar', 'Cuttack', 'Rourkela', 'Chandigarh',
+                'Amritsar', 'Ludhiana', 'Jaipur', 'Udaipur', 'Jodhpur', 'Gangtok',
+                'Chennai', 'Coimbatore', 'Madurai', 'Warangal', 'Agartala', 'Lucknow',
+                'Dehradun', 'Nainital', 'Kolkata', 'Howrah', 'Siliguri'
+            ];
+
+            const states = [
+                'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+                'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
+                'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+                'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+                'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+                'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+            ];
+
+            const countries = [
+                'India', 'United States', 'Canada', 'Mexico', 'United Kingdom',
+                'Germany', 'France', 'Italy', 'Spain', 'Australia',
+                'Japan'
+            ];
+
+            function populateDatalist(id, options) {
+                const datalist = document.getElementById(id);
+                datalist.innerHTML = ''; // Clear existing options
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    datalist.appendChild(optionElement);
+                });
+            }
+
+            populateDatalist('cities', cities);
+            populateDatalist('states', states);
+            populateDatalist('countries', countries);
+        });
+    </script>
+}
+

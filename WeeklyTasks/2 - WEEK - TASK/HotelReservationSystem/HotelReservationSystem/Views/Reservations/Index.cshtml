@@ -1,0 +1,129 @@
+﻿@model IEnumerable<HotelReservationSystem.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-5">
+    <h1 class="page-title">Index</h1>
+
+<p>
+    <a class="btn btn-create" asp-action="Create">Create New</a>
+</p>
+
+<!-- Reservation Search Form -->
+<form id="reservationSearchForm" method="get">
+    <div class="form-group">
+        <label for="reservationSearchTerm">Search Reservations</label>
+        <input type="text" id="reservationSearchTerm" class="form-control" placeholder="Search..." />
+    </div>
+</form>
+
+<table class="table" id="reservationsTable">
+    <thead>
+        <tr>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="customer" data-order="asc">
+                    @Html.DisplayNameFor(model => model.Customer)
+                </a>
+            </th>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="room" data-order="asc">
+                    @Html.DisplayNameFor(model => model.Room)
+                </a>
+            </th>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="checkInDate" data-order="asc">
+                    @Html.DisplayNameFor(model => model.CheckInDate)
+                </a>
+            </th>
+            <th>
+                <a href="#" class="sort list-unstyled text-white" data-column="checkOutDate" data-order="asc">
+                    @Html.DisplayNameFor(model => model.CheckOutDate)
+                </a>
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-column="customer">@Html.DisplayFor(modelItem => item.Customer.CustomerId) | @Html.DisplayFor(modelItem => item.Customer.Name)</td>
+                <td data-column="room">@Html.DisplayFor(modelItem => item.Room.RoomNumber) | @Html.DisplayFor(modelItem => item.Room.RoomType)</td>
+                <td>@Html.DisplayFor(modelItem => item.CheckInDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.CheckOutDate)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReservationId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReservationId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReservationId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.getElementById('reservationsTable');
+            const headers = table.querySelectorAll('thead th a.sort');
+            const searchInput = document.getElementById('reservationSearchTerm');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            function updateTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const customerCell = cells[0].textContent.toLowerCase();
+                    const roomCell = cells[1].textContent.toLowerCase();
+
+                    const matchesCustomerFilter = customerCell.includes(searchTerm);
+                    const matchesRoomFilter = roomCell.includes(searchTerm);
+
+                    row.style.display = (matchesCustomerFilter || matchesRoomFilter) ? '' : 'none';
+                });
+            }
+
+            searchInput.addEventListener('input', updateTable);
+
+            headers.forEach(header => {
+                header.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const column = header.getAttribute('data-column');
+                    const order = header.getAttribute('data-order');
+                    const newOrder = (order === 'asc') ? 'desc' : 'asc';
+                    header.setAttribute('data-order', newOrder);
+                    sortTable(column, newOrder);
+                });
+            });
+
+            function sortTable(column, order) {
+                updateTable();
+
+                const sortedRows = rows.filter(row => row.style.display !== 'none');
+
+                sortedRows.sort((a, b) => {
+                    const cellA = a.querySelector(`td[data-column="${column}"]`).textContent.trim();
+                    const cellB = b.querySelector(`td[data-column="${column}"]`).textContent.trim();
+
+                    if (column === 'checkInDate' || column === 'checkOutDate') {
+                        return order === 'asc'
+                            ? new Date(cellA) - new Date(cellB)
+                            : new Date(cellB) - new Date(cellA);
+                    }
+
+                    return order === 'asc'
+                        ? cellA.localeCompare(cellB, undefined, { numeric: true })
+                        : cellB.localeCompare(cellA, undefined, { numeric: true });
+                });
+
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = '';
+                sortedRows.forEach(row => tbody.appendChild(row));
+            }
+        });
+    </script>
+}
