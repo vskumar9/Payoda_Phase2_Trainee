@@ -1,0 +1,74 @@
+use mvc_kumar
+
+CREATE TRIGGER UpdateRoomAvailability
+ON Reservations
+AFTER INSERT
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to false when a new reservation is added
+    UPDATE Rooms
+    SET IsAvailable = 0
+    FROM Rooms
+    INNER JOIN inserted ON Rooms.RoomID = inserted.RoomID;
+END;
+
+CREATE TRIGGER UpdateRoomAvailabilityOnDelete
+ON Reservations
+AFTER DELETE
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to true when a reservation is deleted
+    UPDATE Rooms
+    SET IsAvailable = 1
+    FROM Rooms
+    INNER JOIN deleted ON Rooms.RoomID = deleted.RoomID;
+END;
+
+-- Disable triggers
+DISABLE TRIGGER trg_UpdateRoomAvailability ON Reservations;
+DISABLE TRIGGER trg_UpdateRoomAvailabilityOnDelete ON Reservations;
+
+DISABLE TRIGGER UpdateRoomAvailability ON Reservations;
+DISABLE TRIGGER UpdateRoomAvailabilityOnDelete ON Reservations;
+
+enable TRIGGER UpdateRoomAvailability ON Reservations;
+enable TRIGGER UpdateRoomAvailabilityOnDelete ON Reservations;
+
+
+-- Trigger for INSERT operation
+CREATE or ALTER TRIGGER trg_UpdateRoomAvailability
+ON Reservations
+AFTER INSERT
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to false when a new reservation is added
+    UPDATE Rooms
+    SET IsAvailable = 0
+    FROM Rooms
+    INNER JOIN inserted ON Rooms.RoomID = inserted.RoomID;
+
+    -- Use OUTPUT clause with INTO to avoid conflicts
+    -- Note: Here we are just demonstrating, ensure this aligns with your trigger logic
+    DECLARE @OutputTable TABLE (RoomID INT);
+    INSERT INTO @OutputTable(RoomID)
+    SELECT RoomID FROM inserted;
+END;
+
+-- Trigger for DELETE operation
+CREATE or ALTER TRIGGER trg_UpdateRoomAvailabilityOnDelete
+ON Reservations
+AFTER DELETE
+AS
+BEGIN
+    -- Update the IsAvailable status of the room to true when a reservation is deleted
+    UPDATE Rooms
+    SET IsAvailable = 1
+    FROM Rooms
+    INNER JOIN deleted ON Rooms.RoomID = deleted.RoomID;
+
+    -- Use OUTPUT clause with INTO to avoid conflicts
+    -- Note: Here we are just demonstrating, ensure this aligns with your trigger logic
+    DECLARE @OutputTable TABLE (RoomID INT);
+    INSERT INTO @OutputTable(RoomID)
+    SELECT RoomID FROM deleted;
+END;
