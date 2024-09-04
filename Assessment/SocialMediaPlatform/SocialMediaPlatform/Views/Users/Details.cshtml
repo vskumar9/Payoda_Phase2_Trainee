@@ -1,0 +1,68 @@
+﻿@model SocialMediaPlatform.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    CreatedDate
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Posts)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                        <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                        <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.uId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
