@@ -39,5 +39,12 @@ namespace CarRentalService.Services
             if (model == null) throw new ArgumentNullException(nameof(model));
             return await _customer.DeleteCustomer(model);
         }
+        
+        public async Task<Customer> GetCustomerById(string id)
+        {
+            var customer = await _customer.GetCustomer(id);
+            if (customer == null) return null;
+            return customer;
+        }
     }
 }

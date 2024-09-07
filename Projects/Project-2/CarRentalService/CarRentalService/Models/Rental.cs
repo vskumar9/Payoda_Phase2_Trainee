@@ -8,9 +8,8 @@ namespace CarRentalService.Models
     public class Rental
     {
         [Key]
-        [Required]
         [StringLength(50)]
-        public required string RentalId { get; set; }
+        public string? RentalId { get; set; }
 
         [Required]
         [ForeignKey("Customer")]

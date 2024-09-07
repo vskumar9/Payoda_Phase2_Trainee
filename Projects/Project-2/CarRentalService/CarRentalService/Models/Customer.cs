@@ -7,9 +7,8 @@ namespace CarRentalService.Models
     public class Customer
     {
         [Key]
-        [Required]
         [StringLength(50)]
-        public required string CustomerId { get; set; }
+        public string? CustomerId { get; set; }
 
         [Required]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "First name minimum characters 2 & maximum 100")]
@@ -36,6 +35,8 @@ namespace CarRentalService.Models
 
         [Required]
         public required string PasswordHash { get; set; }
+
+        public DateTime? LastLoginDate { get; set; }
     }
 
 }

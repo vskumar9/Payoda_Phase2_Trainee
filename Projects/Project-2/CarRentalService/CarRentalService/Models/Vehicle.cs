@@ -5,9 +5,8 @@ namespace CarRentalService.Models
     public class Vehicle
     {
         [Key]
-        [Required]
         [StringLength(50)]
-        public required string VehicleId { get; set; }
+        public string? VehicleId { get; set; }
 
         [Required]
         [StringLength(100)]

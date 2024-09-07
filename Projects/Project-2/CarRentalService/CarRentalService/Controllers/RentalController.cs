@@ -12,15 +12,21 @@ namespace CarRentalService.Controllers
     public class RentalController : ControllerBase
     {
         private readonly RentalService _rentalService;
+        private readonly CustomerService _customerService;
+        private readonly VehicleService _vehicleService;
 
-        public RentalController(RentalService rentalService)
+        public RentalController(RentalService rentalService, CustomerService customerService, VehicleService vehicleService)
         {
             _rentalService = rentalService;
+            _customerService = customerService;
+            _vehicleService = vehicleService;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterRental([FromBody] Rental model)
         {
+            //if(_customerService.GetCustomerById(model.CustomerId) == null || _vehicleService.GetVehicleById(model.VehicleId) == null) return BadRequest("Customer or Vehical not registered..!");
+            model.RentalId = Guid.NewGuid().ToString();
             var result = await _rentalService.RegisterRental(model);
             if (result == "Exist")
                 return Conflict("Rental already exists.");
@@ -37,6 +43,7 @@ namespace CarRentalService.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRental(string id)
         {
+
             var rental = await _rentalService.GetRental(id);
             if (rental == null)
                 return NotFound();
@@ -67,5 +74,6 @@ namespace CarRentalService.Controllers
                 return NotFound();
             return NoContent();
         }
+
     }
 }

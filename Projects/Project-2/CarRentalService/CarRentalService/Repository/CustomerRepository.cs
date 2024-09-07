@@ -25,7 +25,7 @@ namespace CarRentalService.Repository
 
             var customer = new Customer
             {
-                CustomerId = Guid.NewGuid().ToString(),
+                CustomerId = model.CustomerId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,

@@ -47,11 +47,12 @@ namespace CarRentalService.Repository
 
             var admin = new Admin
             {
-                AdminId = Guid.NewGuid().ToString(),
+                AdminId = model.AdminId,
                 Username = model.Username,
                 FullName = model.FullName,
                 Email = model.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash),
+                CreatedDate = DateTime.UtcNow
             };
 
             await _context.Admins.AddAsync(admin);

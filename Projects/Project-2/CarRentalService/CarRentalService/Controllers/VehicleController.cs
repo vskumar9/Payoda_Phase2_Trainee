@@ -21,6 +21,7 @@ namespace CarRentalService.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterVehicle([FromBody] Vehicle model)
         {
+            model.VehicleId = Guid.NewGuid().ToString();
             var result = await _vehicleService.RegisterVehicle(model);
             if (result == "Exist")
                 return Conflict("Vehicle already exists.");

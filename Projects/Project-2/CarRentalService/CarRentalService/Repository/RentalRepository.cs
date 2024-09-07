@@ -18,7 +18,7 @@ namespace CarRentalService.Repository
         {
             var rental = new Rental
             {
-                RentalId = Guid.NewGuid().ToString(),
+                RentalId = model.RentalId,
                 CustomerId = model.CustomerId,
                 VehicleId = model.VehicleId,
                 RentalDate = model.RentalDate,
@@ -90,6 +90,13 @@ namespace CarRentalService.Repository
             return await _context.Rentals.Include(c =>  c.Customer).Include(v => v.Vehicle)
                 .Where(r => r.CustomerId == customerId)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Rentals
+            .Where(r => r.RentalDate >= startDate && r.RentalDate <= endDate)
+            .ToListAsync();
         }
     }
 }

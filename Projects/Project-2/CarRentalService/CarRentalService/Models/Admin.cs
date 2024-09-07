@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace CarRentalService.Models
 {
     public class Admin
     {
         [Key]
-        [Required]
         [StringLength(50)]
-        public required string AdminId { get; set; }
+        public string? AdminId { get; set; }
 
         [Required]
         [StringLength(50)]

@@ -10,5 +10,6 @@ namespace CarRentalService.Interface
         Task<Rental> UpdateRental(Rental model);
         Task<string> DeleteRental(Rental model);
         Task<IEnumerable<Rental>> GetRentalHistory(string customerId);
+        Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime startDate, DateTime endDate);
     }
 }

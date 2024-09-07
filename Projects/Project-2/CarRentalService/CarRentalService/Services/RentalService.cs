@@ -1,5 +1,6 @@
 ﻿using CarRentalService.Interface;
 using CarRentalService.Models;
+using CarRentalService.Repository;
 
 namespace CarRentalService.Services
 {
@@ -45,6 +46,29 @@ namespace CarRentalService.Services
         {
             if (customerId == null) throw new ArgumentNullException(nameof(customerId));
             return await _rental.GetRentalHistory(customerId);
+        }
+
+        public async Task<string> GetRentalReturnExpired(string vehicleId)
+        {
+            var existingRental = await _rental.GetRental(vehicleId);
+
+            if (existingRental != null)
+            {
+                if (existingRental.ReturnDate.HasValue && existingRental.ReturnDate.Value < DateTime.UtcNow)
+                {
+                    return "ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return "ok";
+        }
+
+        public async Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _rental.GetRentalsByDateRangeAsync(startDate, endDate);
         }
     }
 }

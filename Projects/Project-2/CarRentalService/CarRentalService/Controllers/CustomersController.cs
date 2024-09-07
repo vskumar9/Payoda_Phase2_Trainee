@@ -24,6 +24,7 @@ namespace CarRentalService.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterCustomer([FromBody] Customer model)
         {
+            model.CustomerId = Guid.NewGuid().ToString();
             var result = await _customerService.RegisterCustomer(model);
             if (result == "Exist")
                 return Conflict("Customer with the same email already exists.");

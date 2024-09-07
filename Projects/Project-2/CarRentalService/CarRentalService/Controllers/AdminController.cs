@@ -22,6 +22,7 @@ namespace CarRentalService.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAdmin([FromBody] Admin model)
         {
+            model.AdminId = Guid.NewGuid().ToString();
             var result = await _adminService.RegisterAdmin(model);
             if (result == "Exist")
                 return Conflict("Admin with the same email or username already exists.");

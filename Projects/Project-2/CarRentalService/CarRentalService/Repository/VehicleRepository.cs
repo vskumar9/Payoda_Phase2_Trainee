@@ -17,7 +17,7 @@ namespace CarRentalService.Repository
         {
             var vehicle = new Vehicle
             {
-                VehicleId = Guid.NewGuid().ToString(),
+                VehicleId = model.VehicleId,
                 Make = model.Make,
                 Model = model.Model,
                 Year = model.Year,

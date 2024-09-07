@@ -1,4 +1,4 @@
-using CarRentalService.Interface;
+﻿using CarRentalService.Interface;
 using CarRentalService.Models;
 using CarRentalService.Repository;
 using CarRentalService.Services;
@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using CarRentalService.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
