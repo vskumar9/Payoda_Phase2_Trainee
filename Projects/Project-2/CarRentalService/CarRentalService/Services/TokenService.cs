@@ -25,7 +25,9 @@ namespace CarRentalService.Services
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Name, user.FirstName),
-            new Claim(ClaimTypes.Role, "User")
+            new Claim(ClaimTypes.Role, "User"),
+            new Claim(ClaimTypes.NameIdentifier, user.CustomerId),
+            new Claim(ClaimTypes.PrimarySid, user.CustomerId)
         };
 
             return await GenerateTokenAsync(claims);
@@ -37,7 +39,9 @@ namespace CarRentalService.Services
         {
             new Claim(JwtRegisteredClaimNames.Sub, admin.Email),
             new Claim(JwtRegisteredClaimNames.Name, admin.FullName),
-            new Claim(ClaimTypes.Role, "Admin")
+            new Claim(ClaimTypes.Role, "Admin"),
+            new Claim(ClaimTypes.NameIdentifier, admin.AdminId),
+            new Claim(ClaimTypes.PrimarySid, admin.AdminId)
         };
 
             return await GenerateTokenAsync(claims);

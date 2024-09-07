@@ -1,60 +1,73 @@
 ﻿using CarRentalService.Models;
 using CarRentalService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CarRentalService.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly AdminService _adminService;
 
-        private readonly AdminService _service;
-
-        public AdminController(AdminService service)
+        public AdminController(AdminService adminService)
         {
-            _service = service;
+            _adminService = adminService;
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] Admin model)
+        {
+            var result = await _adminService.RegisterAdmin(model);
+            if (result == "Exist")
+                return Conflict("Admin with the same email or username already exists.");
+            return CreatedAtAction(nameof(GetAdmin), new { id = model.AdminId }, model);
+        }
 
-
-        // GET: api/<AdminController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> GetAllAdmins()
         {
-            return new string[] { "value1", "value2" };
+            var admins = await _adminService.GetAllAdmins();
+            return Ok(admins);
         }
 
-        // GET api/<AdminController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetAdmin(string id)
         {
-            return "value";
+            var admin = await _adminService.GetAdmin(id);
+            if (admin == null)
+                return NotFound();
+            return Ok(admin);
         }
 
-        // POST api/<AdminController>
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Admin admin)
-        {
-            var adminResult = await _service.RegisterAdmin(admin);
-            if (adminResult == null) return BadRequest();
-            else if (adminResult.Contains("Exist")) return Ok("Already Existed.");
-            else if (adminResult != null && !adminResult.Contains("Exist")) return CreatedAtAction("Get", new { id = admin.AdminId }, admin);
-            return Ok(adminResult);
-        }
-
-        // PUT api/<AdminController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateAdmin(string id, [FromBody] Admin model)
         {
+            if (id != model.AdminId)
+                return BadRequest("Admin ID mismatch.");
+
+            var updatedAdmin = await _adminService.UpdateAdmin(model);
+            if (updatedAdmin == null)
+                return NotFound();
+            return Ok(updatedAdmin);
         }
 
-        // DELETE api/<AdminController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteAdmin(string id)
         {
+            var admin = await _adminService.GetAdmin(id);
+            if (admin == null)
+                return NotFound();
+
+            var result = await _adminService.DeleteAdmin(admin);
+            if (result == "NotFound")
+                return NotFound();
+            return NoContent();
         }
     }
 }
+

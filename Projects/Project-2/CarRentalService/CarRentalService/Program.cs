@@ -1,4 +1,6 @@
+using CarRentalService.Interface;
 using CarRentalService.Models;
+using CarRentalService.Repository;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +64,18 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
+builder.Services.AddScoped<IAdmin, AdminRepository>();
+builder.Services.AddScoped<ICustomer, CustomerRepository>();
+builder.Services.AddScoped<IRental, RentalRepository>();
+builder.Services.AddScoped<IVehicle, VehicleRepository>();
+
+
+
+builder.Services.AddScoped<AdminService>();
+builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<RentalService>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<VehicleService>();
 
 var app = builder.Build();
 
