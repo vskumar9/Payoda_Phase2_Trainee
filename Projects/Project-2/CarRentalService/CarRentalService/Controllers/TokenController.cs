@@ -31,6 +31,9 @@ namespace CarRentalService.Controllers
             if (customer != null)
             {
                 var token = await _tokenService.GenerateTokenAsync(customer);
+                customer.LastLoginDate = DateTime.UtcNow;
+                _context.Entry(customer).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
                 return Ok(new { Token = token });
             }
 
@@ -38,6 +41,9 @@ namespace CarRentalService.Controllers
             if (admin != null)
             {
                 var token = await _tokenService.GenerateAdminTokenAsync(admin);
+                admin.LastLoginDate = DateTime.Now;
+                _context.Entry(admin).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
                 return Ok(new { Token = token });
             }
 

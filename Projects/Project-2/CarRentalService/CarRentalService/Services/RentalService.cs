@@ -66,9 +66,17 @@ namespace CarRentalService.Services
             return "ok";
         }
 
-        public async Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime? startDate, DateTime? endDate)
         {
             return await _rental.GetRentalsByDateRangeAsync(startDate, endDate);
         }
+
+        public async Task<IEnumerable<Rental>> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
+        {
+            var rental = await _rental.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
+            if(rental != null) return rental;
+            return null!;
+        }
+
     }
 }

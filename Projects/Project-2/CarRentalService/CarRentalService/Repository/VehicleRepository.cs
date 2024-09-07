@@ -46,7 +46,7 @@ namespace CarRentalService.Repository
             var vehicle = await _context.Vehicles.FindAsync(model.VehicleId);
             if (vehicle == null)
             {
-                return null;
+                return null!;
             }
 
             //_context.Entry(model).State = EntityState.Modified;
@@ -76,6 +76,40 @@ namespace CarRentalService.Repository
             await _context.SaveChangesAsync();
 
             return "Deleted";
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null)
+        {
+            var query = _context.Vehicles.AsQueryable();
+
+            if (!string.IsNullOrEmpty(vehicleId))
+            {
+                query = query.Where(v => v.VehicleId == vehicleId);
+            }
+
+            if (!string.IsNullOrEmpty(make))
+            {
+                var lowerMake = make.ToLower();
+                query = query.Where(v => v.Make != null && v.Make.ToLower().Contains(lowerMake));
+            }
+
+            if (!string.IsNullOrEmpty(model))
+            {
+                var lowerModel = model.ToLower();
+                query = query.Where(v => v.Model != null && v.Model.ToLower().Contains(lowerModel));
+            }
+
+            if (year.HasValue)
+            {
+                query = query.Where(v => v.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var lowerColor = color.ToLower();
+                query = query.Where(v => v.Color != null && v.Color.ToLower().Contains(lowerColor));
+            }
+            return await query.ToListAsync();
         }
     }
 }

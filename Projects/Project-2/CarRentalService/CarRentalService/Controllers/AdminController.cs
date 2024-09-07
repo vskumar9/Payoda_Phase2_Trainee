@@ -69,6 +69,15 @@ namespace CarRentalService.Controllers
                 return NotFound();
             return NoContent();
         }
+
+        [HttpGet("Filter/Any")]
+        public async Task<IActionResult> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
+        {
+            var admin = await _adminService.GetAdminsAny(adminId, username, email, fullName);
+            if (admin == null) return Ok("No Data Match.");
+            return Ok(admin);
+        }
+
     }
 }
 

@@ -10,5 +10,10 @@ namespace CarRentalService.Interface
         Task<Customer> GetCustomer(string id);
         Task<Customer> UpdateCustomer(Customer model);
         Task<string> DeleteCustomer(Customer model);
+        Task<IEnumerable<Customer>> GetCustomersAny(string? customerId = null,
+                                                    string? firstName = null,
+                                                    string? lastName = null,
+                                                    string? email = null,
+                                                    string? phoneNumber = null);
     }
 }

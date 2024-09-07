@@ -88,5 +88,40 @@ namespace CarRentalService.Repository
 
             return "Deleted";
         }
+
+        public async Task<IEnumerable<Customer>> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
+        {
+            var query = _context.Customers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(customerId))
+            {
+                query = query.Where(c => c.CustomerId == customerId);
+            }
+
+            if (!string.IsNullOrEmpty(firstName))
+            {
+                var lowerFirstName = firstName.ToLower();
+                query = query.Where(c => c.FirstName.ToLower().Contains(lowerFirstName));
+            }
+
+            if (!string.IsNullOrEmpty(lastName))
+            {
+                var lowerLastName = lastName.ToLower();
+                query = query.Where(c => c.LastName.ToLower().Contains(lowerLastName));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                var lowerEmail = email.ToLower();
+                query = query.Where(c => c.Email.ToLower().Contains(lowerEmail));
+            }
+
+            if (!string.IsNullOrEmpty(phoneNumber))
+            {
+                var lowerPhoneNumber = phoneNumber.ToLower();
+                query = query.Where(c => c.PhoneNumber != null && c.PhoneNumber.ToLower().Contains(lowerPhoneNumber));
+            }
+            return await query.ToListAsync();
+        }
     }
 }

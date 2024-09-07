@@ -118,5 +118,15 @@ namespace CarRentalService.Controllers
 
             return Ok(rentals);
         }
+
+        [HttpGet("Filter/Any")]
+        public async Task<IActionResult> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
+        {
+            var customers = await _customerService.GetCustomersAny(customerId, firstName, lastName, email, phoneNumber);
+            if (customers == null) return Ok("No Data Match.");
+            return Ok(customers);
+        }
+
+
     }
 }

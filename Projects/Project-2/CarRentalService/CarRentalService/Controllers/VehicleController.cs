@@ -68,5 +68,15 @@ namespace CarRentalService.Controllers
                 return NotFound();
             return NoContent();
         }
+
+        [HttpGet("Filter/Any")]
+        public async Task<IActionResult> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null)
+        {
+            var vehicle = await _vehicleService.GetVehiclesAny(vehicleId, make, model, year, color);
+            if (vehicle == null) return Ok("No Vehicles.");
+            return Ok(vehicle);
+        }
+
+
     }
 }

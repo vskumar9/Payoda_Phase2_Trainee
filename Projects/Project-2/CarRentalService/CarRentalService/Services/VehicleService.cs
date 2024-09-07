@@ -47,5 +47,14 @@ namespace CarRentalService.Services
             if (vehicle == null) return null;
             return vehicle;
         }
+
+        public async Task<IEnumerable<Vehicle>> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null)
+        {
+            var vehicle = await _vehicle.GetVehiclesAny(vehicleId, make, model, year, color);
+            if (vehicle == null) return Enumerable.Empty<Vehicle>();
+            return vehicle;
+        }
+
+
     }
 }

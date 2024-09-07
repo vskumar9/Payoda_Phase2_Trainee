@@ -33,6 +33,37 @@ namespace CarRentalService.Repository
             return await _context.Admins.FindAsync(id) ?? throw new NullReferenceException();
         }
 
+        public async Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
+        {
+            var query = _context.Admins.AsQueryable();
+
+            if (!string.IsNullOrEmpty(adminId))
+            {
+                query = query.Where(a => a.AdminId == adminId);
+            }
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                var lowerUsername = username.ToLower();
+                query = query.Where(a => a.Username.ToLower().Contains(lowerUsername));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                var lowerEmail = email.ToLower();
+                query = query.Where(a => a.Email.ToLower().Contains(lowerEmail));
+            }
+
+            if (!string.IsNullOrEmpty(fullName))
+            {
+                var lowerFullName = fullName.ToLower();
+                query = query.Where(a =>
+                    (a.Username.ToLower().Contains(lowerFullName)) ||
+                    (a.Email.ToLower().Contains(lowerFullName)));
+            }
+            return await query.ToListAsync();
+        }
+
         public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             return await _context.Admins.ToListAsync();
@@ -66,7 +97,7 @@ namespace CarRentalService.Repository
             var admin = await _context.Admins.FindAsync(model.AdminId);
             if (admin == null)
             {
-                return null;
+                return null!;
             }
 
             //_context.Entry(model).State = EntityState.Modified;

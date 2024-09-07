@@ -75,5 +75,21 @@ namespace CarRentalService.Controllers
             return NoContent();
         }
 
+        [HttpGet("Filter")]
+        public async Task<IActionResult> GetRentalsByDate([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
+        {
+            var rental = await _rentalService.GetRentalsByDateRangeAsync(startDate, endDate);
+            if (rental == null) return Ok("Not Available Rental data.");
+            return Ok(rental);
+        }
+
+        [HttpGet("Filter/Any")]
+        public async Task<IActionResult> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
+        {
+            var rental = await _rentalService.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
+            if (rental == null) return Ok("No Rentals.");
+            return Ok(rental);
+        }
+
     }
 }
