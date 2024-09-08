@@ -1,8 +1,9 @@
 ﻿using CarRentalService.Models;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 
 namespace CarRentalService.Controllers
 {
@@ -11,12 +12,14 @@ namespace CarRentalService.Controllers
     [ApiController]
     public class RentalController : ControllerBase
     {
+        private readonly ILogger<RentalController> _logger;
         private readonly RentalService _rentalService;
         private readonly CustomerService _customerService;
         private readonly VehicleService _vehicleService;
 
-        public RentalController(RentalService rentalService, CustomerService customerService, VehicleService vehicleService)
+        public RentalController(ILogger<RentalController> logger, RentalService rentalService, CustomerService customerService, VehicleService vehicleService)
         {
+            _logger = logger;
             _rentalService = rentalService;
             _customerService = customerService;
             _vehicleService = vehicleService;
@@ -25,12 +28,21 @@ namespace CarRentalService.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterRental([FromBody] Rental model)
         {
-            //if(_customerService.GetCustomerById(model.CustomerId) == null || _vehicleService.GetVehicleById(model.VehicleId) == null) return BadRequest("Customer or Vehical not registered..!");
-            model.RentalId = Guid.NewGuid().ToString();
-            var result = await _rentalService.RegisterRental(model);
-            if (result == "Exist")
-                return Conflict("Rental already exists.");
-            return CreatedAtAction(nameof(GetRental), new { id = model.RentalId }, model);
+            try
+            {
+                //if(_customerService.GetCustomerById(model.CustomerId) == null || _vehicleService.GetVehicleById(model.VehicleId) == null) return BadRequest("Customer or Vehical not registered..!");
+                model.RentalId = Guid.NewGuid().ToString();
+                var result = await _rentalService.RegisterRental(model);
+                if (result.Contains("Vehicle or Customer Not found.")) return Conflict("Vehicle or Customer Not found.");
+                if (result.Contains("Vehicle Rentaled.")) return Conflict("Vehicle Rentaled.");
+                if (result.Contains("Rnetal date or return date wrong!")) return Conflict("Rnetal date or return date wrong!");
+                return CreatedAtAction(nameof(GetRental), new { id = model.RentalId }, model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet]
@@ -58,7 +70,7 @@ namespace CarRentalService.Controllers
 
             var updatedRental = await _rentalService.UpdateRental(model);
             if (updatedRental == null)
-                return NotFound();
+                return Ok("Vehicle/Customer not found. rental date mistake or Vehicle Already Rentaled.");
             return Ok(updatedRental);
         }
 

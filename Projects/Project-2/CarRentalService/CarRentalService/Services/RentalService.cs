@@ -15,67 +15,127 @@ namespace CarRentalService.Services
 
         public async Task<string> RegisterRental(Rental model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-            return await _rental.RegisterRental(model);
+            try
+            {
+                //var rental = await _rental.RegisterRental(model);
+                //if (rental.Contains("Vehicle or Customer Not found.")) return rental;
+                return await _rental.RegisterRental(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<IEnumerable<Rental>> GetAllRentals()
         {
-            return await _rental.GetAllRentals();
+            try
+            {
+                return await _rental.GetAllRentals();
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<Rental> GetRental(string id)
         {
-            if (id == null) throw new ArgumentNullException(nameof(id));
-            return await _rental.GetRental(id);
+            try
+            {
+                return await _rental.GetRental(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<Rental> UpdateRental(Rental model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-            return await _rental.UpdateRental(model);
+            try
+            {
+                return await _rental.UpdateRental(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<string> DeleteRental(Rental model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-            return await _rental.DeleteRental(model);
+            try
+            {
+                return await _rental.DeleteRental(model);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<IEnumerable<Rental>> GetRentalHistory(string customerId)
         {
-            if (customerId == null) throw new ArgumentNullException(nameof(customerId));
-            return await _rental.GetRentalHistory(customerId);
+            try
+            {
+                return await _rental.GetRentalHistory(customerId);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<string> GetRentalReturnExpired(string vehicleId)
         {
-            var existingRental = await _rental.GetRental(vehicleId);
-
-            if (existingRental != null)
+            try
             {
-                if (existingRental.ReturnDate.HasValue && existingRental.ReturnDate.Value < DateTime.UtcNow)
+                var existingRental = await _rental.GetRental(vehicleId);
+
+                if (existingRental != null)
                 {
-                    return "ok";
+                    if (existingRental.ReturnDate.HasValue && existingRental.ReturnDate.Value < DateTime.UtcNow)
+                    {
+                        return "ok";
+                    }
+                    else
+                    {
+                        return null!;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+                return "ok";
             }
-            return "ok";
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<IEnumerable<Rental>> GetRentalsByDateRangeAsync(DateTime? startDate, DateTime? endDate)
         {
-            return await _rental.GetRentalsByDateRangeAsync(startDate, endDate);
+            try
+            {
+                return await _rental.GetRentalsByDateRangeAsync(startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
         public async Task<IEnumerable<Rental>> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
         {
-            var rental = await _rental.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
-            if(rental != null) return rental;
-            return null!;
+            try
+            {
+                var rental = await _rental.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
+                if (rental != null) return rental;
+                return null!;
+            }
+            catch (Exception ex)
+            {
+                throw ex ?? new Exception();
+            }
         }
 
     }

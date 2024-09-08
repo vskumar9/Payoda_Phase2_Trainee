@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using CarRentalService.Controllers;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,8 @@ builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<RentalService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<VehicleService>();
+
+builder.Services.AddLogging(configure => configure.AddConsole());
 
 var app = builder.Build();
 
