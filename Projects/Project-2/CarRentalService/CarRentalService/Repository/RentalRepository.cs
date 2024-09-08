@@ -222,7 +222,9 @@ namespace CarRentalService.Repository
             }
         }
 
-        public async Task<IEnumerable<Rental>> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
+        public async Task<IEnumerable<Rental>> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, 
+            string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null, 
+            string? sortBy = "RentalDate", bool sortDescending = false)
         {
             try
             {
@@ -272,6 +274,8 @@ namespace CarRentalService.Repository
                     );
                 }
 
+                query = sortDescending ? ApplySorting(query, sortBy!, true) : ApplySorting(query, sortBy!, false);
+
                 return await query.ToListAsync();
             }
             catch
@@ -291,6 +295,24 @@ namespace CarRentalService.Repository
             {
                 throw;
             }
+        }
+
+        private IQueryable<Rental> ApplySorting(IQueryable<Rental> query, string sortBy, bool descending)
+        {
+            return sortBy.ToLower() switch
+            {
+                "rentalid" => descending ? query.OrderByDescending(r => r.RentalId) : query.OrderBy(r => r.RentalId),
+                "rentaldate" => descending ? query.OrderByDescending(r => r.RentalDate) : query.OrderBy(r => r.RentalDate),
+                "customerid" => descending ? query.OrderByDescending(r => r.Customer!.CustomerId) : query.OrderBy(r => r.Customer!.CustomerId),
+                "firstname" => descending ? query.OrderByDescending(r => r.Customer!.FirstName) : query.OrderBy(r => r.Customer!.FirstName),
+                "lastname" => descending ? query.OrderByDescending(r => r.Customer!.LastName) : query.OrderBy(r => r.Customer!.LastName),
+                "email" => descending ? query.OrderByDescending(r => r.Customer!.Email) : query.OrderBy(r => r.Customer!.Email),
+                "phonenumber" => descending ? query.OrderByDescending(r => r.Customer!.PhoneNumber) : query.OrderBy(r => r.Customer!.PhoneNumber),
+                "vehicleid" => descending ? query.OrderByDescending(r => r.Vehicle!.VehicleId) : query.OrderBy(r => r.Vehicle!.VehicleId),
+                "vehiclename" => descending ? query.OrderByDescending(r => r.Vehicle!.Make).ThenByDescending(r => r.Vehicle!.Model) :
+                                              query.OrderBy(r => r.Vehicle!.Make).ThenBy(r => r.Vehicle!.Model),
+                _ => descending ? query.OrderByDescending(r => r.RentalDate) : query.OrderBy(r => r.RentalDate),
+            };
         }
     }
 }

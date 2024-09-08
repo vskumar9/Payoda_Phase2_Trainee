@@ -133,12 +133,14 @@ namespace CarRentalService.Controllers
         }
 
         [HttpGet("Filter/Any")]
-        public async Task<IActionResult> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
+        public async Task<IActionResult> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, 
+            string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null, 
+            string? sortBy = "RentalDate", bool sortDescending = false)
         {
             try
             {
-                var rental = await _rentalService.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
-                if (rental == null) return Ok("No Rentals.");
+                var rental = await _rentalService.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId, sortBy, sortDescending);
+                if (rental == null || !rental.Any()) return Ok("No Rentals.");
                 return Ok(rental);
             }
             catch (Exception ex)

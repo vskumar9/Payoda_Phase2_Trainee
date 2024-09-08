@@ -1,4 +1,5 @@
-﻿using CarRentalService.Models;
+﻿using CarRentalService.Interface;
+using CarRentalService.Models;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -112,12 +113,12 @@ namespace CarRentalService.Controllers
         }
 
         [HttpGet("Filter/Any")]
-        public async Task<IActionResult> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null)
+        public async Task<IActionResult> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null, string? sortBy = "Make", bool sortDescending = false)
         {
             try
             {
-                var vehicle = await _vehicleService.GetVehiclesAny(vehicleId, make, model, year, color);
-                if (vehicle == null) return Ok("No Vehicles.");
+                var vehicle = await _vehicleService.GetVehiclesAny(vehicleId, make, model, year, color, sortBy, sortDescending);
+                if (vehicle == null || !vehicle.Any()) return Ok("No Vehicles.");
                 return Ok(vehicle);
             }
             catch (Exception ex)

@@ -17,7 +17,9 @@ namespace CarRentalService.Interface
                                                 string? customerId = null,
                                                 string? email = null, 
                                                 string? phoneNumber = null, 
-                                                string? vehicleId = null);
+                                                string? vehicleId = null,
+                                                string? sortBy = "RentalDate",
+                                                bool sortDescending = false);
         Task<int> GetTotalRentals();
     }
 }

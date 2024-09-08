@@ -1,4 +1,6 @@
-﻿using CarRentalService.Models;
+﻿using CarRentalService.Exceptions;
+using CarRentalService.Interface;
+using CarRentalService.Models;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +16,13 @@ namespace CarRentalService.Controllers
     {
         private readonly ILogger<AdminController> _logger;
         private readonly AdminService _adminService;
+        private readonly ApplicationUtil _applicationUtil;
 
-        public AdminController(AdminService adminService, ILogger<AdminController> logger)
+        public AdminController(AdminService adminService, ILogger<AdminController> logger, ApplicationUtil applicationUtil)
         {
             _adminService = adminService;
             _logger = logger;
+            _applicationUtil = applicationUtil;
         }
 
         [HttpPost("register")]
@@ -27,6 +31,7 @@ namespace CarRentalService.Controllers
             try
             {
                 model.AdminId = Guid.NewGuid().ToString();
+                _applicationUtil.ValidateEmail(model.Email);
                 var result = await _adminService.RegisterAdmin(model);
                 if (result.Contains("Invalid admin")) return Conflict("Invalid admin");
                 if (result == "Exist") return Conflict("Admin with the same email or username already exists.");
@@ -79,10 +84,16 @@ namespace CarRentalService.Controllers
                 if (id != model.AdminId)
                     return BadRequest("Admin ID mismatch.");
 
+                _applicationUtil.ValidateEmail(model.Email);
+                _applicationUtil.ValidatePassword(model.PasswordHash);
                 var updatedAdmin = await _adminService.UpdateAdmin(model);
                 if (updatedAdmin == null)
                     return NotFound();
                 return Ok(updatedAdmin);
+            }
+            catch (InvalidException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -113,12 +124,12 @@ namespace CarRentalService.Controllers
         }
 
         [HttpGet("Filter/Any")]
-        public async Task<IActionResult> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
+        public async Task<IActionResult> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null, string? sortBy = "Username", bool sortDescending = false)
         {
             try
             {
-                var admin = await _adminService.GetAdminsAny(adminId, username, email, fullName);
-                if (admin == null) return Ok("No Data Match.");
+                var admin = await _adminService.GetAdminsAny(adminId, username, email, fullName, sortBy, sortDescending);
+                if (admin == null || !admin.Any()) return Ok("No Data Match.");
                 return Ok(admin);
             }
             catch (Exception ex)

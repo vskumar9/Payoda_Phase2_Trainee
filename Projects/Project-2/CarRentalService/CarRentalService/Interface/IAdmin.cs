@@ -12,7 +12,9 @@ namespace CarRentalService.Interface
         Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null,
                                               string? username = null,
                                               string? email = null,
-                                              string? fullName = null);
+                                              string? fullName = null,
+                                              string? sortBy = "Username",
+                                              bool sortDescending = false);
         Task<int> GetTotalAdmins();
     }
 }

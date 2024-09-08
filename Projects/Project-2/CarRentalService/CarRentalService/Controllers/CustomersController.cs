@@ -1,4 +1,5 @@
-﻿using CarRentalService.Models;
+﻿using CarRentalService.Exceptions;
+using CarRentalService.Models;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ namespace CarRentalService.Controllers
         private readonly ILogger<CustomersController> _logger;
         private readonly CustomerService _customerService;
         private readonly RentalService _rentalService;
+        private readonly ApplicationUtil _appicationUtil;
 
-        public CustomersController(CustomerService customerService, RentalService rentalService, ILogger<CustomersController> logger)
+        public CustomersController(CustomerService customerService, RentalService rentalService, ILogger<CustomersController> logger, ApplicationUtil applicationUtil)
         {
             _customerService = customerService;
             _rentalService = rentalService;
             _logger = logger;
+            _appicationUtil = applicationUtil;
         }
 
         [HttpPost("register")]
@@ -29,10 +32,17 @@ namespace CarRentalService.Controllers
             try
             {
                 model.CustomerId = Guid.NewGuid().ToString();
+                _appicationUtil.ValidatePhoneNumber(model.PhoneNumber!);
+                _appicationUtil.ValidateEmail(model.Email!);
+                _appicationUtil.ValidatePassword(model.PasswordHash);
                 var result = await _customerService.RegisterCustomer(model);
                 if (result == "Exist")
                     return Conflict("Customer with the same email already exists.");
                 return CreatedAtAction(nameof(GetCustomer), new { id = model.CustomerId }, model);
+            }
+            catch(InvalidException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -171,12 +181,12 @@ namespace CarRentalService.Controllers
 
         [HttpGet("Filter/Any")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
+        public async Task<IActionResult> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null, string? sortBy = "FirstName", bool sortDescending = false)
         {
             try
             {
-                var customers = await _customerService.GetCustomersAny(customerId, firstName, lastName, email, phoneNumber);
-                if (customers == null) return Ok("No Data Match.");
+                var customers = await _customerService.GetCustomersAny(customerId, firstName, lastName, email, phoneNumber, sortBy, sortDescending);
+                if (customers == null || !customers.Any()) return Ok("No Data Match.");
                 return Ok(customers);
             }
             catch (Exception ex)

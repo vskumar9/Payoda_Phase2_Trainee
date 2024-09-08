@@ -13,7 +13,9 @@ namespace CarRentalService.Interface
                                                     string? firstName = null,
                                                     string? lastName = null,
                                                     string? email = null,
-                                                    string? phoneNumber = null);
+                                                    string? phoneNumber = null, 
+                                                    string? sortBy = "FirstName", 
+                                                    bool sortDescending = false);
         Task<int> GetTotalCustomers();
     }
 }

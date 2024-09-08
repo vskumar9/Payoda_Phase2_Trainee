@@ -113,7 +113,8 @@ namespace CarRentalService.Repository
             }
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, string? color = null)
+        public async Task<IEnumerable<Vehicle>> GetVehiclesAny(string? vehicleId = null, string? make = null, string? model = null, int? year = null, 
+            string? color = null, string? sortBy = "Make", bool sortDescending = false)
         {
             try
             {
@@ -147,6 +148,9 @@ namespace CarRentalService.Repository
                     var lowerColor = color.ToLower();
                     query = query.Where(v => v.Color != null && v.Color.ToLower().Contains(lowerColor));
                 }
+
+                query = sortDescending ? ApplySorting(query, sortBy!, true) : ApplySorting(query, sortBy!, false);
+
                 return await query.ToListAsync();
             }
             catch
@@ -165,6 +169,20 @@ namespace CarRentalService.Repository
             {
                 throw;
             }
+        }
+
+        private IQueryable<Vehicle> ApplySorting(IQueryable<Vehicle> query, string sortBy, bool descending)
+        {
+            return sortBy.ToLower() switch
+            {
+                "vehicleid" => descending ? query.OrderByDescending(v => v.VehicleId) : query.OrderBy(v => v.VehicleId),
+                "make" => descending ? query.OrderByDescending(v => v.Make) : query.OrderBy(v => v.Make),
+                "model" => descending ? query.OrderByDescending(v => v.Model) : query.OrderBy(v => v.Model),
+                "year" => descending ? query.OrderByDescending(v => v.Year) : query.OrderBy(v => v.Year),
+                "color" => descending ? query.OrderByDescending(v => v.Color) : query.OrderBy(v => v.Color),
+                "rentalcount" => descending ? query.OrderByDescending(v => v.RentalCount) : query.OrderBy(v => v.RentalCount),
+                _ => descending ? query.OrderByDescending(v => v.Make) : query.OrderBy(v => v.Make),
+            };
         }
     }
 }

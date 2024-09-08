@@ -72,13 +72,12 @@ namespace CarRentalService.Services
             }
         }
 
-        public async Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
+        public async Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null, string? sortBy = "Username", bool sortDescending = false)
         {
             try
             {
-                var admin = await _admin.GetAdminsAny(adminId, username, email, fullName);
-                if(admin == null) return null!;
-                return admin;
+                var admins = await _admin.GetAdminsAny(adminId, username, email, fullName, sortBy, sortDescending);
+                return admins ?? Enumerable.Empty<Admin>();
             }
             catch
             {

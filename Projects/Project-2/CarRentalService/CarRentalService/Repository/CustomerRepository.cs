@@ -125,7 +125,7 @@ namespace CarRentalService.Repository
             }
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
+        public async Task<IEnumerable<Customer>> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null,  string? phoneNumber = null, string? sortBy = "FirstName", bool sortDescending = false)
         {
             try
             {
@@ -160,6 +160,9 @@ namespace CarRentalService.Repository
                     var lowerPhoneNumber = phoneNumber.ToLower();
                     query = query.Where(c => c.PhoneNumber != null && c.PhoneNumber.ToLower().Contains(lowerPhoneNumber));
                 }
+
+                query = sortDescending ? ApplySorting(query, sortBy!, true) : ApplySorting(query, sortBy!, false);
+
                 return await query.ToListAsync();
             }
             catch
@@ -178,6 +181,19 @@ namespace CarRentalService.Repository
             {
                 throw;
             }
+        }
+
+        private IQueryable<Customer> ApplySorting(IQueryable<Customer> query, string sortBy, bool descending)
+        {
+            return sortBy.ToLower() switch
+            {
+                "customerid" => descending ? query.OrderByDescending(c => c.CustomerId) : query.OrderBy(c => c.CustomerId),
+                "firstname" => descending ? query.OrderByDescending(c => c.FirstName) : query.OrderBy(c => c.FirstName),
+                "lastname" => descending ? query.OrderByDescending(c => c.LastName) : query.OrderBy(c => c.LastName),
+                "email" => descending ? query.OrderByDescending(c => c.Email) : query.OrderBy(c => c.Email),
+                "phonenumber" => descending ? query.OrderByDescending(c => c.PhoneNumber) : query.OrderBy(c => c.PhoneNumber),
+                _ => descending ? query.OrderByDescending(c => c.FirstName) : query.OrderBy(c => c.FirstName),
+            };
         }
     }
 }

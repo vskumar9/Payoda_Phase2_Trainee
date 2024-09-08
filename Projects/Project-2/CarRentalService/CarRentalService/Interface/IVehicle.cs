@@ -14,7 +14,9 @@ namespace CarRentalService.Interface
                                                   string? make = null,
                                                   string? model = null,
                                                   int? year = null,
-                                                  string? color = null);
+                                                  string? color = null,
+                                                  string? sortBy = "Make",
+                                                  bool sortDescending = false);
         Task<int> GetTotalVehicles();
     }
 }

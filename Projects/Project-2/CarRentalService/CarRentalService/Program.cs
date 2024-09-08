@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using CarRentalService.Controllers;
 using Microsoft.Extensions.Logging;
+using CarRentalService.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,8 @@ builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<RentalService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<VehicleService>();
+
+builder.Services.AddScoped<ApplicationUtil>();
 
 builder.Services.AddLogging(configure => configure.AddConsole());
 

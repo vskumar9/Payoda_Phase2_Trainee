@@ -1,6 +1,7 @@
 ﻿using CarRentalService.Interface;
 using CarRentalService.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace CarRentalService.Repository
 {
@@ -46,7 +47,7 @@ namespace CarRentalService.Repository
             }
         }
 
-        public async Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
+        public async Task<IEnumerable<Admin>> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null, string? sortBy = "Username", bool sortDescending = false)
         {
             try
             {
@@ -77,6 +78,8 @@ namespace CarRentalService.Repository
                         (a.Username.ToLower().Contains(lowerFullName)) ||
                         (a.Email.ToLower().Contains(lowerFullName)));
                 }
+                query = sortDescending ? ApplySorting(query, sortBy!, true) : ApplySorting(query, sortBy!, false);
+
                 return await query.ToListAsync();
             }
             catch
@@ -167,5 +170,18 @@ namespace CarRentalService.Repository
                 throw;
             }
         }
+
+        private IQueryable<Admin> ApplySorting(IQueryable<Admin> query, string sortBy, bool descending)
+        {
+            return sortBy.ToLower() switch
+            {
+                "email" => descending ? query.OrderByDescending(a => a.Email) : query.OrderBy(a => a.Email),
+                "username" => descending ? query.OrderByDescending(a => a.Username) : query.OrderBy(a => a.Username),
+                "adminid" => descending ? query.OrderByDescending(a => a.AdminId) : query.OrderBy(a => a.AdminId),
+                "fullname" => descending ? query.OrderByDescending(a => a.FullName) : query.OrderBy(a => a.FullName),
+                _ => descending ? query.OrderByDescending(a => a.Username) : query.OrderBy(a => a.Username),
+            };
+        }
+
     }
 }
