@@ -32,6 +32,7 @@ namespace CarRentalService.Controllers
             {
                 model.AdminId = Guid.NewGuid().ToString();
                 _applicationUtil.ValidateEmail(model.Email);
+                _applicationUtil.ValidatePassword(model.PasswordHash);
                 var result = await _adminService.RegisterAdmin(model);
                 if (result.Contains("Invalid admin")) return Conflict("Invalid admin");
                 if (result == "Exist") return Conflict("Admin with the same email or username already exists.");

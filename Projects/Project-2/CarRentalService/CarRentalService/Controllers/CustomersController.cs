@@ -103,6 +103,7 @@ namespace CarRentalService.Controllers
                 var userId = User.FindFirstValue(ClaimTypes.PrimarySid);
                 var isAdmin = User.IsInRole("Admin");
 
+
                 if (id != userId && !isAdmin)
                     return Forbid("You are not authorized to update this data.");
 
@@ -111,6 +112,10 @@ namespace CarRentalService.Controllers
 
                 if (id != model.CustomerId)
                     return BadRequest("Customer ID mismatch.");
+
+                _appicationUtil.ValidatePhoneNumber(model.PhoneNumber!);
+                _appicationUtil.ValidateEmail(model.Email!);
+                _appicationUtil.ValidatePassword(model.PasswordHash);
 
                 var updatedCustomer = await _customerService.UpdateCustomer(model);
                 if (updatedCustomer == null)
