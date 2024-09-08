@@ -14,45 +14,104 @@ namespace CarRentalService.Services
 
         public async Task<string> RegisterCustomer(Customer model)
         {
-            if(model == null) throw new ArgumentNullException(nameof(model));
-            return await _customer.RegisterCustomer(model);
+            try
+            {
+                return await _customer.RegisterCustomer(model);
+            }
+            catch
+            {
+                throw;
+            }
         }
         public async Task<IEnumerable<Customer>> GetAllCustomers()
         {
-            return await _customer.GetAllCustomers();
+            try
+            {
+                return await _customer.GetAllCustomers();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<Customer> GetCustomer(string id)
         {
-            if (id == null) throw new ArgumentNullException();
-            return await _customer.GetCustomer(id);
+            try
+            {
+                return await _customer.GetCustomer(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<Customer> UpdateCustomer(Customer model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-            return await _customer.UpdateCustomer(model);
+            try
+            {
+                return await _customer.UpdateCustomer(model);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<string> DeleteCustomer(Customer model)
         {
-            if (model == null) throw new ArgumentNullException(nameof(model));
-            return await _customer.DeleteCustomer(model);
+            try
+            {
+                return await _customer.DeleteCustomer(model);
+            }
+            catch
+            {
+                throw;
+            }
         }
         
         public async Task<Customer> GetCustomerById(string id)
         {
-            var customer = await _customer.GetCustomer(id);
-            if (customer == null) return null;
-            return customer;
+            try
+            {
+                var customer = await _customer.GetCustomer(id);
+                if (customer == null) return null!;
+                return customer;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Customer>> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
         {
-            var customer = await _customer.GetCustomersAny(customerId, firstName, lastName, email, phoneNumber);
-            if(customer == null) return Enumerable.Empty<Customer>();
-            return customer;
+            try
+            {
+                var customer = await _customer.GetCustomersAny(customerId, firstName, lastName, email, phoneNumber);
+                if(customer == null) return Enumerable.Empty<Customer>();
+                return customer;
+            }
+            catch
+            {
+                throw;
+            }
         }
+
+        public async Task<int> GetTotalCustomers()
+        {
+            try
+            {
+                return await _customer.GetTotalCustomers();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
 
     }
 }

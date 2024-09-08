@@ -21,9 +21,9 @@ namespace CarRentalService.Services
                 //if (rental.Contains("Vehicle or Customer Not found.")) return rental;
                 return await _rental.RegisterRental(model);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -33,9 +33,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.GetAllRentals();
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -45,9 +45,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.GetRental(id);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -57,9 +57,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.UpdateRental(model);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -69,9 +69,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.DeleteRental(model);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -81,9 +81,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.GetRentalHistory(customerId);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -106,9 +106,9 @@ namespace CarRentalService.Services
                 }
                 return "ok";
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -118,9 +118,9 @@ namespace CarRentalService.Services
             {
                 return await _rental.GetRentalsByDateRangeAsync(startDate, endDate);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
 
@@ -132,11 +132,24 @@ namespace CarRentalService.Services
                 if (rental != null) return rental;
                 return null!;
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex ?? new Exception();
+                throw;
             }
         }
+
+        public async Task<int> GetTotalRentals()
+        {
+            try
+            {
+                return await _rental.GetTotalRentals();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
     }
 }

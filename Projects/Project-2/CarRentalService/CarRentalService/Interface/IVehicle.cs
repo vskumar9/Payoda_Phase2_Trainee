@@ -1,5 +1,6 @@
 ﻿using CarRentalService.Models;
 
+
 namespace CarRentalService.Interface
 {
     public interface IVehicle
@@ -14,5 +15,6 @@ namespace CarRentalService.Interface
                                                   string? model = null,
                                                   int? year = null,
                                                   string? color = null);
+        Task<int> GetTotalVehicles();
     }
 }

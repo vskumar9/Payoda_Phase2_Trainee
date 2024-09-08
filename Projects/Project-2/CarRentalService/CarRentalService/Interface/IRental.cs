@@ -18,5 +18,6 @@ namespace CarRentalService.Interface
                                                 string? email = null, 
                                                 string? phoneNumber = null, 
                                                 string? vehicleId = null);
+        Task<int> GetTotalRentals();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CarRentalService.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalService.Interface
 {
@@ -14,5 +13,6 @@ namespace CarRentalService.Interface
                                               string? username = null,
                                               string? email = null,
                                               string? fullName = null);
+        Task<int> GetTotalAdmins();
     }
 }

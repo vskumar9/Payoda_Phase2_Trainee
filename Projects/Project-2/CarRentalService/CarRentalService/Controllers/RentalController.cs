@@ -1,9 +1,7 @@
 ﻿using CarRentalService.Models;
 using CarRentalService.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 
 namespace CarRentalService.Controllers
 {
@@ -48,59 +46,120 @@ namespace CarRentalService.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRentals()
         {
-            var rentals = await _rentalService.GetAllRentals();
-            return Ok(rentals);
+            try
+            {
+                var rentals = await _rentalService.GetAllRentals();
+                return Ok(rentals);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRental(string id)
         {
-
-            var rental = await _rentalService.GetRental(id);
-            if (rental == null)
-                return NotFound();
-            return Ok(rental);
+            try
+            {
+                var rental = await _rentalService.GetRental(id);
+                if (rental == null)
+                    return NotFound();
+                return Ok(rental);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRental(string id, [FromBody] Rental model)
         {
-            if (id != model.RentalId)
-                return BadRequest("Rental ID mismatch.");
+            try
+            {
+                if (id != model.RentalId)
+                    return BadRequest("Rental ID mismatch.");
 
-            var updatedRental = await _rentalService.UpdateRental(model);
-            if (updatedRental == null)
-                return Ok("Vehicle/Customer not found. rental date mistake or Vehicle Already Rentaled.");
-            return Ok(updatedRental);
+                var updatedRental = await _rentalService.UpdateRental(model);
+                if (updatedRental == null)
+                    return Ok("Vehicle/Customer not found. rental date mistake or Vehicle Already Rentaled.");
+                return Ok(updatedRental);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRental(string id)
         {
-            var rental = await _rentalService.GetRental(id);
-            if (rental == null)
-                return NotFound();
+            try
+            {
+                var rental = await _rentalService.GetRental(id);
+                if (rental == null)
+                    return NotFound();
 
-            var result = await _rentalService.DeleteRental(rental);
-            if (result == "NotFound")
-                return NotFound();
-            return NoContent();
+                var result = await _rentalService.DeleteRental(rental);
+                if (result == "NotFound")
+                    return NotFound();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("Filter")]
         public async Task<IActionResult> GetRentalsByDate([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
-            var rental = await _rentalService.GetRentalsByDateRangeAsync(startDate, endDate);
-            if (rental == null) return Ok("Not Available Rental data.");
-            return Ok(rental);
+            try
+            {
+                var rental = await _rentalService.GetRentalsByDateRangeAsync(startDate, endDate);
+                if (rental == null) return Ok("Not Available Rental data.");
+                return Ok(rental);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("Filter/Any")]
         public async Task<IActionResult> GetRentalsAny(string? firstName = null, string? lastName = null, string? vehicleName = null, string? customerId = null, string? email = null, string? phoneNumber = null, string? vehicleId = null)
         {
-            var rental = await _rentalService.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
-            if (rental == null) return Ok("No Rentals.");
-            return Ok(rental);
+            try
+            {
+                var rental = await _rentalService.GetRentalsAny(firstName, lastName, vehicleName, customerId, email, phoneNumber, vehicleId);
+                if (rental == null) return Ok("No Rentals.");
+                return Ok(rental);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpGet("Count")]
+        public async Task<IActionResult> GetTotalRentals()
+        {
+            try
+            {
+                return Ok(await _rentalService.GetTotalRentals());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
     }

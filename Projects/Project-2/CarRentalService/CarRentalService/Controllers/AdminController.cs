@@ -12,71 +12,137 @@ namespace CarRentalService.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly ILogger<AdminController> _logger;
         private readonly AdminService _adminService;
 
-        public AdminController(AdminService adminService)
+        public AdminController(AdminService adminService, ILogger<AdminController> logger)
         {
             _adminService = adminService;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAdmin([FromBody] Admin model)
         {
-            model.AdminId = Guid.NewGuid().ToString();
-            var result = await _adminService.RegisterAdmin(model);
-            if (result == "Exist")
-                return Conflict("Admin with the same email or username already exists.");
-            return CreatedAtAction(nameof(GetAdmin), new { id = model.AdminId }, model);
+            try
+            {
+                model.AdminId = Guid.NewGuid().ToString();
+                var result = await _adminService.RegisterAdmin(model);
+                if (result.Contains("Invalid admin")) return Conflict("Invalid admin");
+                if (result == "Exist") return Conflict("Admin with the same email or username already exists.");
+                return CreatedAtAction(nameof(GetAdmin), new { id = model.AdminId }, model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAdmins()
         {
-            var admins = await _adminService.GetAllAdmins();
-            return Ok(admins);
+            try
+            {
+                var admins = await _adminService.GetAllAdmins();
+                return Ok(admins);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAdmin(string id)
         {
-            var admin = await _adminService.GetAdmin(id);
-            if (admin == null)
-                return NotFound();
-            return Ok(admin);
+            try
+            {
+                var admin = await _adminService.GetAdmin(id);
+                if (admin == null)
+                    return NotFound();
+                return Ok(admin);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAdmin(string id, [FromBody] Admin model)
         {
-            if (id != model.AdminId)
-                return BadRequest("Admin ID mismatch.");
+            try
+            {
+                if (id != model.AdminId)
+                    return BadRequest("Admin ID mismatch.");
 
-            var updatedAdmin = await _adminService.UpdateAdmin(model);
-            if (updatedAdmin == null)
-                return NotFound();
-            return Ok(updatedAdmin);
+                var updatedAdmin = await _adminService.UpdateAdmin(model);
+                if (updatedAdmin == null)
+                    return NotFound();
+                return Ok(updatedAdmin);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(string id)
         {
-            var admin = await _adminService.GetAdmin(id);
-            if (admin == null)
-                return NotFound();
+            try
+            {
+                var admin = await _adminService.GetAdmin(id);
+                if (admin == null)
+                    return NotFound();
 
-            var result = await _adminService.DeleteAdmin(admin);
-            if (result == "NotFound")
-                return NotFound();
-            return NoContent();
+                var result = await _adminService.DeleteAdmin(admin);
+                if (result == "NotFound")
+                    return NotFound();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("Filter/Any")]
         public async Task<IActionResult> GetAdminsAny(string? adminId = null, string? username = null, string? email = null, string? fullName = null)
         {
-            var admin = await _adminService.GetAdminsAny(adminId, username, email, fullName);
-            if (admin == null) return Ok("No Data Match.");
-            return Ok(admin);
+            try
+            {
+                var admin = await _adminService.GetAdminsAny(adminId, username, email, fullName);
+                if (admin == null) return Ok("No Data Match.");
+                return Ok(admin);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
         }
+
+        [HttpGet("Count")]
+        public async Task<IActionResult> GetTotalAdmins()
+        {
+            try
+            {
+                return Ok(await _adminService.GetTotalAdmins());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while registering the rental.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            }
+        }
+
+
 
     }
 }

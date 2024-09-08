@@ -38,7 +38,7 @@ namespace CarRentalService.Repository
                     return "Vehicle Rentaled.";
                 }
 
-                if (model.RentalDate < DateTime.UtcNow || model.RentalDate >= model.ReturnDate)
+                if (model.RentalDate < DateTime.UtcNow.AddMinutes(-2) || model.RentalDate >= model.ReturnDate)
                 {
                     return "Rnetal date or return date wrong!";
                 }
@@ -54,11 +54,15 @@ namespace CarRentalService.Repository
                 };
 
                 await _context.Rentals.AddAsync(rental);
+
+                vehicle.RentalCount++;
+                _context.Vehicles.Update(vehicle);
+                
                 await _context.SaveChangesAsync();
 
                 return "Added";
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -75,7 +79,7 @@ namespace CarRentalService.Repository
                     .ToListAsync();
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -90,7 +94,7 @@ namespace CarRentalService.Repository
                     .Include(r => r.Vehicle)
                     .FirstOrDefaultAsync(r => r.RentalId == id) ?? throw new NullReferenceException();
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -100,6 +104,7 @@ namespace CarRentalService.Repository
         {
             try
             {
+                var newVehicle = false;
                 // Fetch the existing rental record
                 var rental = await _context.Rentals.FindAsync(model.RentalId);
                 if (rental == null)
@@ -122,6 +127,7 @@ namespace CarRentalService.Repository
 
                 if (rental.VehicleId != model.VehicleId)
                 {
+                    newVehicle = true;
                     if (latestRental != null && latestRental.ReturnDate.HasValue && latestRental.ReturnDate.Value >= DateTime.UtcNow)
                     {
 
@@ -131,7 +137,7 @@ namespace CarRentalService.Repository
 
                 if(model.RentalDate != rental.RentalDate)
                 {
-                    if (model.RentalDate < DateTime.UtcNow)
+                    if (model.RentalDate < DateTime.UtcNow.AddMinutes(-2))
                     {
                         return null!;
                     }
@@ -150,11 +156,17 @@ namespace CarRentalService.Repository
                 rental.Cost = model.Cost;
 
                 _context.Rentals.Update(rental);
+                if (newVehicle)
+                {
+                    vehicle.RentalCount++;
+                    _context.Vehicles.Update(vehicle);
+                }
+
                 await _context.SaveChangesAsync();
 
                 return rental;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -176,7 +188,7 @@ namespace CarRentalService.Repository
 
                 return "Deleted";
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -190,7 +202,7 @@ namespace CarRentalService.Repository
                     .Where(r => r.CustomerId == customerId)
                     .ToListAsync();
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -204,7 +216,7 @@ namespace CarRentalService.Repository
                 .Where(r => r.RentalDate >= startDate && r.RentalDate <= endDate)
                 .ToListAsync();
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -262,11 +274,23 @@ namespace CarRentalService.Repository
 
                 return await query.ToListAsync();
             }
-            catch(Exception ex)
+            catch
             {
                 throw;
             }
 
+        }
+
+        public async Task<int> GetTotalRentals()
+        {
+            try
+            {
+                return await _context.Rentals.CountAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
