@@ -170,6 +170,7 @@ namespace CarRentalService.Controllers
         }
 
         [HttpGet("Filter/Any")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetCustomersAny(string? customerId = null, string? firstName = null, string? lastName = null, string? email = null, string? phoneNumber = null)
         {
             try
@@ -186,6 +187,7 @@ namespace CarRentalService.Controllers
         }
 
         [HttpGet("Count")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetTotalCustomers()
         {
             try
