@@ -38,6 +38,10 @@ namespace CarRentalService.Controllers
                 if (result == "Exist") return Conflict("Admin with the same email or username already exists.");
                 return CreatedAtAction(nameof(GetAdmin), new { id = model.AdminId }, model);
             }
+            catch (InvalidException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while registering the rental.");
