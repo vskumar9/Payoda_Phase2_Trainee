@@ -80,7 +80,7 @@ builder.Services.AddScoped<RentalService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<VehicleService>();
 
-builder.Services.AddScoped<ApplicationUtil>();
+builder.Services.AddSingleton<ApplicationUtil>();
 
 builder.Services.AddLogging(configure => configure.AddConsole());
 
