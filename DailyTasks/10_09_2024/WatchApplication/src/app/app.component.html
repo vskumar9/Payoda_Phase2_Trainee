@@ -35,10 +35,7 @@
     <h1 class="ptitle">All Top Brand Watches</h1>
     <hr />
     <div class="pbox-container">
-      <div
-        *ngFor="let watch of list"
-        class="pbox"
-      >
+      <div *ngFor="let watch of list" class="pbox">
         <img
           class="image pic"
           [src]="watch.image"
@@ -81,10 +78,7 @@
       <h1 class="ptitle">Cart Watches</h1>
       <hr />
       <div class="pbox-container">
-        <div
-          *ngFor="let watch of cartItems"
-          class="pbox"
-        >
+        <div *ngFor="let watch of cartItems" class="pbox">
           <img
             class="image pic"
             [src]="watch.image"
@@ -101,15 +95,21 @@
           </div>
           <div>
             <p class="pdesc">
-              <span
-                [style.color]="watch.rating ? getRatingColor(watch.rating) : ''"
-                ><span>Rating:</span> {{ watch.rating }} ⭐</span
-              >
+              <span [style.color]="watch.rating ? getRatingColor(watch.rating) : ''">
+                <span>Rating:</span> {{ watch.rating }} ⭐
+              </span>
             </p>
           </div>
           <div>
             <button class="pbtn" (click)="removeCart(watch)">
               Remove to Cart
+            </button>
+            <button
+              class="pbtn"
+              style="margin-left: 10px"
+              (click)="buyNow(watch)"
+            >
+              Buy
             </button>
           </div>
         </div>
@@ -121,10 +121,7 @@
       <h1 class="ptitle">Order Watches</h1>
       <hr />
       <div class="pbox-container">
-        <div
-          *ngFor="let watch of buyItems"
-          class="pbox"
-        >
+        <div *ngFor="let watch of buyItems" class="pbox">
           <img
             class="image pic"
             [src]="watch.image"
