@@ -1,0 +1,131 @@
+.main-nav {
+  min-height: 50px;
+  width: 100%;
+  margin: 0 auto;
+  border-top: solid 3px #ef3636;
+  box-shadow: 0px 1px 5px #00000033;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  background-color: #f8f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar {
+  height: 100%;
+  min-width: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-item {
+  margin: 0 3px;
+  font-size: small;
+  font-weight: 500;
+  text-decoration: none;
+  color: rgb(69, 69, 69);
+  transition: 0.2s;
+}
+
+.nav-btn {
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+
+.nav-last {
+  margin-right: 60%;
+}
+
+.nav-item:hover {
+  background-color: rgb(226, 226, 226);
+}
+
+.avatar-link {
+  text-decoration: none; /* Remove underline from the link */
+}
+
+.avatar {
+  background-color: #009dff;
+  padding: 7px 10px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px; /* Set width of the avatar */
+  height: 50px; /* Set height of the avatar */
+  font-size: 16px; /* Adjust font size if needed */
+}
+
+.nav-links {
+  padding: 7px 13px;
+  border: solid 1px blue;
+  border-radius: 3px;
+  background-color: #e7f8fe;
+  cursor: pointer;
+}
+
+.nav-links:hover {
+  background-color: #d3e4eb;
+}
+
+
+
+.product-list {
+  padding: 20px;
+}
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 20px); /* Adjust width for responsive layout */
+  display: flex;
+  align-items: flex-start;
+}
+
+.product-image {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
+  margin-right: 15px;
+  border-radius: 8px;
+}
+
+.product-details {
+  flex: 1;
+}
+
+.product-card h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.product-card p {
+  margin: 5px 0;
+}
+
+.product-card button {
+  background-color: #007ac6;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.product-card button:hover {
+  background-color: #005999;
+}

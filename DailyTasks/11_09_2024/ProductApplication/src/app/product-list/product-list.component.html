@@ -1,0 +1,289 @@
+<nav class="main-nav">
+  <div class="navbar">
+    <a routerLink="/" class="nav-item nav-logo">
+      <img src="assets/logo.svg" alt="logo" style="width: 120px" />
+    </a>
+    <a routerLink="/Products" class="nav-item nav-btn">Products</a>
+    <a routerLink="/About" class="nav-item nav-btn">About</a>
+    <a routerLink="/Teams" class="nav-item nav-btn nav-last">For Teams</a>
+    <a class="nav-item nav-links" (click)="logout()">Log out</a>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <section class="product-list">
+    <h1 class="text-center mb-4">Product List : {{userRole}}</h1>
+
+    <!-- Category Filter Dropdown -->
+    <div class="d-flex justify-content-center mb-4">
+      <label for="category" class="form-label me-2">Filter by Category:</label>
+      <select
+        id="category"
+        class="form-select w-auto"
+        [(ngModel)]="selectedCategory"
+        (ngModelChange)="filterByCategory($event)"
+      >
+        <option value="All">All</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Display message when there are no products -->
+    <ng-container *ngIf="noProducts; else productList">
+      <p class="text-center text-danger">No products available</p>
+    </ng-container>
+
+    <!-- Template for product list -->
+    <ng-template #productList>
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let product of filteredProducts">
+          <div class="card h-100">
+            <img
+              [src]="product.image"
+              alt="{{ product.name }}"
+              class="card-img-top"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ product.name }}</h5>
+              <p class="card-text">
+                <strong>Description:</strong> {{ product.description }}
+              </p>
+              <p class="card-text">
+                <strong>Category:</strong> {{ product.category }}
+              </p>
+
+              <ng-container *ngIf="product.inStock === 0; else inStock">
+                <p class="text-danger"><strong>Status:</strong> Out of Stock</p>
+              </ng-container>
+
+              <ng-template #inStock>
+                <p><strong>Price:</strong> {{ product.price | currency }}</p>
+
+                <!-- Conditionally show button based on user role -->
+                <ng-container *ngIf="isAdmin(); else userActions">
+                  <button
+                    class="btn btn-warning mt-2 w-100"
+                    (click)="onEditProduct(product)"
+                  >
+                    Edit
+                  </button>
+                </ng-container>
+
+                <ng-template #userActions>
+                  <button
+                    class="btn btn-primary w-100"
+                    (click)="addToCart(product)"
+                  >
+                    Add to Cart
+                  </button>
+                </ng-template>
+              </ng-template>
+
+              <p class="mt-2">
+                <strong>In Stock:</strong> {{ product.inStock }}
+              </p>
+              <p>
+                <strong>Created At:</strong>
+                {{ product.createdAt | date : "shortDate" }}
+              </p>
+              <p>
+                <strong>Updated At:</strong>
+                {{ product.updatedAt | date : "shortDate" }}
+              </p>
+              <p>
+                <strong>Tags:</strong>
+                <span *ngFor="let tag of product.tags; let last = last">
+                  {{ tag }}<span *ngIf="!last">, </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </section>
+</div>
+
+<ng-container *ngIf="isAdmin(); else userActions">
+  <app-add-product (productAdded)="onProductAdded($event)"></app-add-product>
+  <app-edit-product
+    *ngIf="selectedProduct"
+    [product]="selectedProduct"
+    (productUpdated)="onProductUpdated($event)"
+  ></app-edit-product>
+</ng-container>
+<ng-template #userActions>
+  <div class="container mt-5">
+    <section class="product-list">
+      <h1 class="text-center mb-4">Cart Product List</h1>
+
+      <!-- Category Filter Dropdown -->
+      <div class="d-flex justify-content-center mb-4">
+        <label for="category" class="form-label me-2"
+          >Filter by Category:</label
+        >
+        <select
+          id="category"
+          class="form-select w-auto"
+          [(ngModel)]="selectedCategory"
+          (ngModelChange)="filterByCategory($event)"
+        >
+          <option value="All">All</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Display message when there are no products -->
+      <ng-container *ngIf="noProducts; else productList">
+        <p class="text-center text-danger">No products available</p>
+      </ng-container>
+
+      <!-- Template for product list -->
+      <ng-template #productList>
+        <div class="row">
+          <div class="col-md-4 mb-4" *ngFor="let product of CartProducts">
+            <div class="card h-100">
+              <img
+                [src]="product.image"
+                alt="{{ product.name }}"
+                class="card-img-top"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                  <strong>Description:</strong> {{ product.description }}
+                </p>
+                <p class="card-text">
+                  <strong>Category:</strong> {{ product.category }}
+                </p>
+
+                <ng-container *ngIf="product.inStock === 0; else inStock">
+                  <p class="text-danger">
+                    <strong>Status:</strong> Out of Stock
+                  </p>
+                </ng-container>
+
+                <ng-template #inStock>
+                  <p><strong>Price:</strong> {{ product.price | currency }}</p>
+                  <button
+                    class="btn btn-warning mt-2 w-100"
+                    (click)="Remove(product)"
+                  >
+                    Remove cart
+                  </button>
+                  <button class="btn btn-primary w-100" (click)="Buy(product)">
+                    Buy
+                  </button>
+                </ng-template>
+
+                <p class="mt-2">
+                  <strong>In Stock:</strong> {{ product.inStock }}
+                </p>
+                <p>
+                  <strong>Created At:</strong>
+                  {{ product.createdAt | date : "shortDate" }}
+                </p>
+                <p>
+                  <strong>Updated At:</strong>
+                  {{ product.updatedAt | date : "shortDate" }}
+                </p>
+                <p>
+                  <strong>Tags:</strong>
+                  <span *ngFor="let tag of product.tags; let last = last">
+                    {{ tag }}<span *ngIf="!last">, </span>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+
+
+  <div class="container mt-5">
+    <section class="product-list">
+      <h1 class="text-center mb-4">order Product List</h1>
+
+      <!-- Category Filter Dropdown -->
+      <div class="d-flex justify-content-center mb-4">
+        <label for="category" class="form-label me-2"
+          >Filter by Category:</label
+        >
+        <select
+          id="category"
+          class="form-select w-auto"
+          [(ngModel)]="selectedCategory"
+          (ngModelChange)="filterByCategory($event)"
+        >
+          <option value="All">All</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Display message when there are no products -->
+      <ng-container *ngIf="noProducts; else productList">
+        <p class="text-center text-danger">No products available</p>
+      </ng-container>
+
+      <!-- Template for product list -->
+      <ng-template #productList>
+        <div class="row">
+          <div class="col-md-4 mb-4" *ngFor="let product of BuyProducts">
+            <div class="card h-100">
+              <img
+                [src]="product.image"
+                alt="{{ product.name }}"
+                class="card-img-top"
+              />
+              <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">
+                  <strong>Description:</strong> {{ product.description }}
+                </p>
+                <p class="card-text">
+                  <strong>Category:</strong> {{ product.category }}
+                </p>
+
+                <ng-container *ngIf="product.inStock === 0; else inStock">
+                  <p class="text-danger">
+                    <strong>Status:</strong> Out of Stock
+                  </p>
+                </ng-container>
+
+                <ng-template #inStock>
+                  <p><strong>Price:</strong> {{ product.price | currency }}</p>
+                </ng-template>
+
+                <p class="mt-2">
+                  <strong>In Stock:</strong> {{ product.inStock }}
+                </p>
+                <p>
+                  <strong>Created At:</strong>
+                  {{ product.createdAt | date : "shortDate" }}
+                </p>
+                <p>
+                  <strong>Updated At:</strong>
+                  {{ product.updatedAt | date : "shortDate" }}
+                </p>
+                <p>
+                  <strong>Tags:</strong>
+                  <span *ngFor="let tag of product.tags; let last = last">
+                    {{ tag }}<span *ngIf="!last">, </span>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+</ng-template>

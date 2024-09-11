@@ -1,0 +1,135 @@
+
+<h1 style="padding-left: 40%">Add Product</h1>
+<hr />
+
+<form
+  [formGroup]="productForm"
+  (ngSubmit)="onSubmit()"
+  class="container mt-4 border p-4 rounded bg-light shadow-sm"
+>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name:</label>
+    <input id="name" class="form-control" formControlName="name" />
+    <div
+      *ngIf="
+        productForm.get('name')?.invalid &&
+        (productForm.get('name')?.dirty || productForm.get('name')?.touched)
+      "
+    >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('name')?.errors?.['required']"
+        >Name is required.</small
+      >
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description:</label>
+    <textarea
+      id="description"
+      class="form-control"
+      formControlName="description"
+    ></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Price:</label>
+    <input
+      id="price"
+      type="number"
+      class="form-control"
+      formControlName="price"
+    />
+    <div
+      *ngIf="
+        productForm.get('price')?.invalid &&
+        (productForm.get('price')?.dirty || productForm.get('price')?.touched)
+      "
+    >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('price')?.errors?.['required']"
+        >Price is required.</small
+      >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('price')?.errors?.['min']"
+        >Price must be greater than 0.</small
+      >
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="inStock" class="form-label">In Stock:</label>
+    <input
+      id="inStock"
+      type="number"
+      class="form-control"
+      formControlName="inStock"
+    />
+    <div
+      *ngIf="
+        productForm.get('inStock')?.invalid &&
+        (productForm.get('inStock')?.dirty ||
+          productForm.get('inStock')?.touched)
+      "
+    >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('inStock')?.errors?.['required']"
+        >Stock quantity is required.</small
+      >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('inStock')?.errors?.['min']"
+        >Stock quantity cannot be negative.</small
+      >
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="category" class="form-label">Category:</label>
+    <select id="category" class="form-select" formControlName="category">
+      <option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        productForm.get('category')?.invalid &&
+        (productForm.get('category')?.dirty ||
+          productForm.get('category')?.touched)
+      "
+    >
+      <small
+        class="text-danger"
+        *ngIf="productForm.get('category')?.errors?.['required']"
+        >Category is required.</small
+      >
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="tags" class="form-label">Tags (comma-separated):</label>
+    <input id="tags" class="form-control" formControlName="tags" />
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Image URL:</label>
+    <input
+      id="image"
+      class="form-control"
+      type="file"
+      formControlName="image"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="productForm.invalid"
+  >
+    Add Product
+  </button>
+</form>
