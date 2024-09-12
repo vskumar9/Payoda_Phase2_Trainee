@@ -1,0 +1,8 @@
+<p>update-company works!</p>
+<form (ngSubmit)="onUpdate()">
+    <div class="form-group">
+      <label for=""></label>
+      <input type="text" [(ngModel)]="company.name" name='name' id="" class="form-control" placeholder="Enter company name" aria-describedby="helpId">
+    </div>
+    <input type="submit" value="Update Company" class="btn btn-primary">
+</form>

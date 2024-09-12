@@ -1,0 +1,22 @@
+<p>company-details works!</p>
+
+<div *ngIf="company.companyId">
+    <p>Company ID: {{ company.companyId }}</p>
+    <p>Company Name: {{ company.name }}</p>
+    <button (click)="delete(company.companyId!)" class="btn btn-danger">Delete</button>
+    <button (click)="update(company.companyId!)" class="btn btn-primary">Update</button>
+</div>
+
+<!-- <ng-container *ngIf="isAdmin(); else userActions"></ng-container> -->
+<ng-container *ngIf="company?.Employees; else  NoEmployees">
+
+    <div *ngFor="let employee of company.Employees!">
+        <p>Employee ID: {{ employee.EmployeeId }}</p>
+        <p>Employee Name: {{ employee.Name }}</p>
+        <p>Salary: {{ employee.Salary }}</p>
+        <p>JoiningDate: {{ employee.JoiningDate }}</p>
+    </div>
+</ng-container>
+<ng-template #NoEmployees>
+    <P>No Employees</P>
+</ng-template>

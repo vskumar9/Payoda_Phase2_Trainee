@@ -1,0 +1,11 @@
+<p>company-list works!</p>
+
+<ul *ngFor="let company of data">
+    <li>{{ company.companyId }} {{company.name}}</li>
+    <ul  *ngFor="let employee of company.employees">
+        <li>{{employee.employeeId}}</li>
+        <li>{{employee.name}}</li>
+        <li>{{employee.salary}}</li>
+        <li>{{employee.joiningDate}}</li>
+    </ul>
+</ul>

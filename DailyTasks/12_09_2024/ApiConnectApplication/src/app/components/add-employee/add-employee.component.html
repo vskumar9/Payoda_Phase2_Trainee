@@ -1,0 +1,61 @@
+<form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
+
+  <div class="form-group">
+    <label for="employeeName">Name</label>
+    <input
+      type="text"
+      [(ngModel)]="employee.Name"
+      name="Name"
+      id="employeeName"
+      class="form-control"
+      placeholder="Enter employee name"
+      aria-describedby="employeeNameHelp"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="employeeSalary">Salary</label>
+    <input
+      type="number"
+      [(ngModel)]="employee.Salary"
+      name="Salary"
+      id="employeeSalary"
+      class="form-control"
+      placeholder="Enter salary"
+      aria-describedby="employeeSalaryHelp"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="joiningDate">Joining Date</label>
+    <input
+      type="date"
+      [(ngModel)]="employee.JoiningDate"
+      name="JoiningDate"
+      id="joiningDate"
+      class="form-control"
+      aria-describedby="joiningDateHelp"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="companyId">Company ID</label>
+    <select
+      [(ngModel)]="employee.CompanyId"
+      name="CompanyId"
+      id="companyId"
+      class="form-control"
+      aria-describedby="companyIdHelp"
+      required
+    >
+      <option *ngFor="let company of data" [value]="company.id">
+        {{ company.name }}
+      </option>
+    </select>
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

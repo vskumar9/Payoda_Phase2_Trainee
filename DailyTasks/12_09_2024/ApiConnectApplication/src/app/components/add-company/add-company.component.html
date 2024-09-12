@@ -1,0 +1,9 @@
+<p>add-company works!</p>
+
+<form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for=""></label>
+      <input type="text" [(ngModel)]="company.name" name='Company.name' id="" class="form-control" placeholder="Enter company name" aria-describedby="helpId">
+    </div>
+    <input type="submit" value="Add Company" class="btn btn-primary">
+</form>
